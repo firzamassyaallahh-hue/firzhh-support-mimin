@@ -92,6 +92,7 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 </footer>
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -108,10 +109,11 @@ async function loadScripts() {
 
   const { data, error } = await db
     .from("scripts")
-    .select("name, game, description, script, key_link");
+    .select("name:Name, game:Game, description:Descriptior, script:Scripts, key_link:Key_link");
 
   if (error) {
-    results.textContent = "Gagal memuat data. Periksa koneksi database.";
+    console.error(error);
+    results.textContent = "Gagal memuat data: " + error.message;
     return;
   }
 
@@ -169,6 +171,7 @@ function searchScripts() {
 }
 
 loadScripts();
-</script>
+ </script>
+ 
 </body>
 </html>
