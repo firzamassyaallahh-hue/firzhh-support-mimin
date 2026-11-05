@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,43 +6,17 @@
 <title>FIRZHH SUPPORT MIMIN</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#050812;color:#eaf4ff;
- font-family:Arial,sans-serif;
-}
-header{
- padding:25px 18px;text-align:center;
- background:linear-gradient(135deg,#07152c,#10102a);
- border-bottom:1px solid #087cff;
-}
+body{margin:0;background:#050812;color:#eaf4ff;font-family:Arial,sans-serif}
+header{padding:25px 18px;text-align:center;background:linear-gradient(135deg,#07152c,#10102a);border-bottom:1px solid #087cff}
 .logo{font-size:35px}
 h1{color:#36a5ff;letter-spacing:2px;font-size:24px}
 header p{color:#9bb5d1;font-size:13px}
 main{max-width:750px;margin:30px auto;padding:15px}
-.panel{
- background:#0b1424;border:1px solid #173c66;
- border-radius:15px;padding:20px;margin-bottom:20px;
-}
+.panel{background:#0b1424;border:1px solid #173c66;border-radius:15px;padding:20px;margin-bottom:20px}
 h2{color:#48adff;font-size:18px}
-input{
- width:100%;padding:14px;margin-top:10px;
- border-radius:9px;border:1px solid #23568a;
- background:#050c18;color:white;font-size:15px;
- outline:none;
-}
-input:focus{border-color:#39aaff}
-button,.btn{
- display:inline-block;padding:12px 17px;
- background:#087cff;color:white;border:0;
- border-radius:9px;text-decoration:none;
- font-weight:bold;cursor:pointer;margin-top:12px;
-}
-button:hover,.btn:hover{background:#005ac2}
-.script{
- padding:15px;background:#101e33;
- border:1px solid #21476e;border-radius:12px;
- margin-top:12px;
-}
+input{width:100%;padding:14px;margin-top:10px;border-radius:9px;border:1px solid #23568a;background:#050c18;color:white;font-size:15px}
+button,.btn{display:inline-block;padding:12px 17px;background:#087cff;color:white;border:0;border-radius:9px;text-decoration:none;font-weight:bold;cursor:pointer;margin-top:12px}
+.script{padding:15px;background:#101e33;border:1px solid #21476e;border-radius:12px;margin-top:12px}
 .script h3{color:#64baff;margin:0 0 8px}
 .muted{color:#9aabc1;font-size:13px}
 .empty{text-align:center;padding:30px;color:#9aabc1}
@@ -53,48 +26,36 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 <body>
 
 <header>
- <div class="logo">👽</div>
- <h1>FIRZHH SUPPORT MIMIN</h1>
- <p>ALIEN SCRIPT FINDER • OFFICIAL FIRZHH GROUP</p>
+<div class="logo">👽</div>
+<h1>FIRZHH SUPPORT MIMIN</h1>
+<p>ALIEN SCRIPT FINDER • OFFICIAL FIRZHH GROUP</p>
 </header>
 
 <main>
- <section class="panel">
-  <h2>🔎 Cari Script</h2>
-  <p class="muted">Temukan script berdasarkan nama script atau game.</p>
-  <input id="search" type="search"
-   placeholder="Cari nama script atau game..."
-   oninput="searchScripts()">
- </section>
+<section class="panel">
+<h2>🔎 Cari Script</h2>
+<p class="muted">Temukan script berdasarkan nama script atau game.</p>
+<input id="search" type="search" placeholder="Cari nama script atau game..." oninput="searchScripts()">
+</section>
 
- <section class="panel">
-  <h2>📂 Daftar Script</h2>
-  <div id="results" class="empty">
-   👽 Belum ada script yang ditambahkan.
-  </div>
- </section>
+<section class="panel">
+<h2>📂 Daftar Script</h2>
+<div id="results" class="empty">Memuat daftar script...</div>
+</section>
 
- <section class="panel">
-  <h2>👑 Support & Informasi</h2>
-  <p class="muted">
-   Website berbagi informasi script oleh Official Firzhh Group.
-   Penambahan dan pengelolaan script hanya untuk admin resmi.
-  </p>
-  <a class="btn"
-   href="https://whatsapp.com/channel/0029Vb8XVkm0G0XmcyQVSI1O"
-   target="_blank">📢 WhatsApp Channel</a>
- </section>
+<section class="panel">
+<h2>👑 Support & Informasi</h2>
+<p class="muted">Website berbagi informasi script oleh Official Firzhh Group. Penambahan dan pengelolaan script hanya untuk admin resmi.</p>
+<a class="btn" href="https://whatsapp.com/channel/0029Vb8XVkm0G0XmcyQVSI1O" target="_blank">📢 WhatsApp Channel</a>
+</section>
 </main>
 
 <footer>
- © 2026 FIRZHH COMMUNITY<br>
- BY: OFFICIAL FIRZHH GROUP
+© 2026 FIRZHH COMMUNITY<br>
+BY: OFFICIAL FIRZHH GROUP
 </footer>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 const SUPABASE_URL = "https://ipsjcuoaelewjdefsosa.supabase.co/rest/v1/";
 const SUPABASE_KEY = "sb_publishable_blRXnxFY-_er0aFaQfjvkg_OkP84RU-";
@@ -103,75 +64,74 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let scripts = [];
 
-async function loadScripts() {
-  const results = document.getElementById("results");
-  results.textContent = "Memuat daftar script...";
+async function loadScripts(){
+ const results = document.getElementById("results");
+ results.textContent = "Memuat daftar script...";
 
-  const { data, error } = await db
-    .from("scripts")
-    .select("name:Name, game:Game, description:Descriptior, script:Scripts, key_link:Key_link");
+ const {data,error} = await db
+ .from("scripts")
+ .select("name:Name, game:Game, description:Descriptior, script:Scripts, key_link:Key_link");
 
-  if (error) {
-    console.error(error);
-    results.textContent = "Gagal memuat data: " + error.message;
-    return;
-  }
+ if(error){
+  console.error(error);
+  results.textContent = "Gagal memuat data: " + error.message;
+  return;
+ }
 
-  scripts = data || [];
-  searchScripts();
+ scripts = data || [];
+ searchScripts();
 }
 
-function searchScripts() {
-  const keyword = document.getElementById("search").value.toLowerCase();
-  const results = document.getElementById("results");
+function searchScripts(){
+ const keyword = document.getElementById("search").value.toLowerCase();
+ const results = document.getElementById("results");
 
-  const found = scripts.filter(item =>
-    (item.name || "").toLowerCase().includes(keyword) ||
-    (item.game || "").toLowerCase().includes(keyword)
-  );
+ const found = scripts.filter(item =>
+  (item.name || "").toLowerCase().includes(keyword) ||
+  (item.game || "").toLowerCase().includes(keyword)
+ );
 
-  results.replaceChildren();
+ results.replaceChildren();
 
-  if (!found.length) {
-    results.className = "empty";
-    results.textContent = "👽 Belum ada script yang ditemukan.";
-    return;
+ if(!found.length){
+  results.className = "empty";
+  results.textContent = "👽 Belum ada script yang ditemukan.";
+  return;
+ }
+
+ results.className = "";
+
+ found.forEach(item => {
+  const card = document.createElement("div");
+  card.className = "script";
+
+  const title = document.createElement("h3");
+  title.textContent = item.name || "Tanpa nama";
+
+  const game = document.createElement("p");
+  game.className = "muted";
+  game.textContent = "🎮 " + (item.game || "-");
+
+  const desc = document.createElement("p");
+  desc.textContent = item.description || "";
+
+  card.append(title,game,desc);
+
+  if(item.key_link){
+   const link = document.createElement("a");
+   link.className = "btn";
+   link.textContent = "Buka Link";
+   link.href = item.key_link;
+   link.target = "_blank";
+   link.rel = "noopener noreferrer";
+   card.append(link);
   }
 
-  results.className = "";
-
-  found.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "script";
-
-    const title = document.createElement("h3");
-    title.textContent = item.name || "Tanpa nama";
-
-    const game = document.createElement("p");
-    game.className = "muted";
-    game.textContent = "🎮 " + (item.game || "-");
-
-    const desc = document.createElement("p");
-    desc.textContent = item.description || "";
-
-    card.append(title, game, desc);
-
-    if (item.key_link) {
-      const link = document.createElement("a");
-      link.className = "btn";
-      link.textContent = "Buka Link";
-      link.href = item.key_link;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      card.append(link);
-    }
-
-    results.append(card);
-  });
+  results.append(card);
+ });
 }
 
 loadScripts();
- </script>
- 
+</script>
 </body>
 </html>
