@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRZHH SUPPORT MIMIN</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#050812;color:#eaf4ff;
+ font-family:Arial,sans-serif;
+}
+header{
+ padding:25px 18px;text-align:center;
+ background:linear-gradient(135deg,#07152c,#10102a);
+ border-bottom:1px solid #087cff;
+}
+.logo{font-size:35px}
+h1{color:#36a5ff;letter-spacing:2px;font-size:24px}
+header p{color:#9bb5d1;font-size:13px}
+main{max-width:750px;margin:30px auto;padding:15px}
+.panel{
+ background:#0b1424;border:1px solid #173c66;
+ border-radius:15px;padding:20px;margin-bottom:20px;
+}
+h2{color:#48adff;font-size:18px}
+input{
+ width:100%;padding:14px;margin-top:10px;
+ border-radius:9px;border:1px solid #23568a;
+ background:#050c18;color:white;font-size:15px;
+ outline:none;
+}
+input:focus{border-color:#39aaff}
+button,.btn{
+ display:inline-block;padding:12px 17px;
+ background:#087cff;color:white;border:0;
+ border-radius:9px;text-decoration:none;
+ font-weight:bold;cursor:pointer;margin-top:12px;
+}
+button:hover,.btn:hover{background:#005ac2}
+.script{
+ padding:15px;background:#101e33;
+ border:1px solid #21476e;border-radius:12px;
+ margin-top:12px;
+}
+.script h3{color:#64baff;margin:0 0 8px}
+.muted{color:#9aabc1;font-size:13px}
+.empty{text-align:center;padding:30px;color:#9aabc1}
+footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">👽</div>
+ <h1>FIRZHH SUPPORT MIMIN</h1>
+ <p>ALIEN SCRIPT FINDER • OFFICIAL FIRZHH GROUP</p>
+</header>
+
+<main>
+ <section class="panel">
+  <h2>🔎 Cari Script</h2>
+  <p class="muted">Temukan script berdasarkan nama script atau game.</p>
+  <input id="search" type="search"
+   placeholder="Cari nama script atau game..."
+   oninput="searchScripts()">
+ </section>
+
+ <section class="panel">
+  <h2>📂 Daftar Script</h2>
+  <div id="results" class="empty">
+   👽 Belum ada script yang ditambahkan.
+  </div>
+ </section>
+
+ <section class="panel">
+  <h2>👑 Support & Informasi</h2>
+  <p class="muted">
+   Website berbagi informasi script oleh Official Firzhh Group.
+   Penambahan dan pengelolaan script hanya untuk admin resmi.
+  </p>
+  <a class="btn"
+   href="https://whatsapp.com/channel/0029Vb8XVkm0G0XmcyQVSI1O"
+   target="_blank">📢 WhatsApp Channel</a>
+ </section>
+</main>
+
+<footer>
+ © 2026 FIRZHH COMMUNITY<br>
+ BY: OFFICIAL FIRZHH GROUP
+</footer>
+
+<script>
+// Data script akan dihubungkan ke Supabase
+// pada tahap konfigurasi database.
+const scripts = [];
+
+function searchScripts(){
+ const keyword=document.getElementById("search").value.toLowerCase();
+ const results=document.getElementById("results");
+
+ const found=scripts.filter(item=>
+  item.name.toLowerCase().includes(keyword) ||
+  item.game.toLowerCase().includes(keyword)
+ );
+
+ if(found.length===0){
+  results.className="empty";
+  results.innerHTML="👽 Script tidak ditemukan.";
+  return;
+ }
+
+ results.className="";
+ results.innerHTML=found.map(item=>`
+  <div class="script">
+   <h3>${item.name}</h3>
+   <p class="muted">🎮 ${item.game}</p>
+   <p>${item.description}</p>
+   <a class="btn" href="${item.link}" target="_blank">
+    Buka Script
+   </a>
+  </div>
+ `).join("");
+}
+</script>
+</body>
+</html>
