@@ -57,7 +57,7 @@ BY: OFFICIAL FIRZHH GROUP
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL = "https://ipsjcuoaelewjdefsosa.supabase.co/rest/v1/";
+const SUPABASE_URL = "const SUPABASE_URL = "https://ipsjcuoaelewjdefsosa.supabase.co";";
 const SUPABASE_KEY = "sb_publishable_blRXnxFY-_er0aFaQfjvkg_OkP84RU-";
 
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -70,7 +70,7 @@ async function loadScripts(){
 
  const {data,error} = await db
  .from("scripts")
- .select("name:Name, game:Game, description:Descriptior, script:Scripts, key_link:Key_link");
+ .select(".select("name:Name, game:Game, description:Descriptior, script:Scripts, key_link:Key");");
 
  if(error){
   console.error(error);
