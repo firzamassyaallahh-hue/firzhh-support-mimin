@@ -69,8 +69,8 @@ async function loadScripts(){
  results.textContent = "Memuat daftar script...";
 
  const {data,error} = await db
- .from("scripts")
- .select(".select("name:Name, game:Game, description:Descriptior, script:Scripts, key_link:Key");");
+  .from("scripts")
+  .select("*");
 
  if(error){
   console.error(error);
@@ -78,7 +78,14 @@ async function loadScripts(){
   return;
  }
 
- scripts = data || [];
+ scripts = (data || []).map(item => ({
+  name: item.Name,
+  game: item.Game,
+  description: item.Description,
+  script: item.Scripts,
+  key_link: item.Key_link
+ }));
+
  searchScripts();
 }
 
