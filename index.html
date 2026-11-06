@@ -137,7 +137,188 @@ function searchScripts(){
   results.append(card);
  });
 }
+// ===== PANEL ADMIN FIRZHH =====
 
+document.body.insertAdjacentHTML("beforeend", `
+<style>
+#adminBox{
+ background:#0b1425;color:white;padding:20px;
+ margin:25px auto;border:1px solid #168cff;
+ border-radius:15px;max-width:600px;
+}
+#adminBox input,#adminBox textarea{
+ width:100%;padding:12px;margin:6px 0;
+ border-radius:8px;border:1px solid #168cff;
+ background:#07101e;color:white;box-sizing:border-box;
+}
+#adminBox button{
+ padding:10px 15px;margin:5px;
+ border:0;border-radius:8px;
+ background:#168cff;color:white;
+}
+</style>
+
+<div id="adminBox">
+ <h2>🔐 FIRZHH ADMIN PANEL</h2>
+
+ <div id="adminLogin">
+  <input id="adminEmail" placeholder="Email Admin">
+  <input id="adminPassword" type="password" placeholder="Password Admin">
+  <button onclick="adminLogin()">LOGIN ADMIN</button>
+ </div>
+
+ <div id="adminTools" style="display:none">
+  <h3>Tambah Script</h3>
+  <input id="newName" placeholder="Nama Script">
+  <input id="newGame" placeholder="Nama Game">
+  <textarea id="newDesc" placeholder="Deskripsi"></textarea>
+  <textarea id="newScript" placeholder="Isi Script"></textarea>
+  <input id="newKey" placeholder="Link Key (opsional)">
+  <button onclick="addScript()">TAMBAH SCRIPT</button>
+  <button onclick="adminLogout()">LOGOUT</button>
+  <div id="adminList"></div>
+ </div>
+</div>
+`);
+
+async function adminLogin(){
+ const email = document.getElementById("adminEmail").value;
+ const password = document.getElementById("adminPassword").value;
+
+ const {error} = await db.auth.signInWithPassword({
+  email,password
+ });
+
+ if(error){
+  alert("Login gagal: " + error.message);
+  return;
+ }
+
+ showAdmin();
+}
+
+async function showAdmin(){
+ document.getElementById("adminLogin").style.display="none";
+ document.getElementById("adminTools").style.display="block";
+ loadAdminScripts();
+}
+
+async function adminLogout(){
+ await db.auth.signOut();
+ document.getElementById("adminLogin").style.display="block";
+ document.getElementById("adminTools").style.display="none";
+}
+
+async function addScript(){
+ const record = {
+  Name:document.getElementById("newName").value,
+  Game:document.getElementById("newGame").value,
+  Description:document.getElementById("newDesc").value,
+  Scripts:document.getElementById("newScript").value,
+  Key_link:document.getElementById("newKey").value || null
+ };
+
+ if(!record.Name || !record.Game){
+  alert("Nama script dan game wajib diisi!");
+  return;
+ }
+
+ const {error} = await db.from("scripts").insert(record);
+
+ if(error){
+  alert("Gagal: " + error.message);
+  return;
+ }
+
+ alert("Script berhasil ditambahkan!");
+ loadScripts();
+ loadAdminScripts();
+}
+
+async function loadAdminScripts(){
+ const {data,error} = await db.from("scripts").select("*");
+
+ if(error){
+  alert("Gagal mengambil data: " + error.message);
+  return;
+ }
+
+ const list=document.getElementById("adminList");
+ list.innerHTML="<h3>Daftar Script</h3>";
+
+ (data || []).forEach(item=>{
+  const div=document.createElement("div");
+  div.style.padding="10px";
+  div.style.borderTop="1px solid #168cff";
+  div.textContent=item.Name + " - " + item.Game;
+
+  const edit=document.createElement("button");
+  edit.textContent="EDIT";
+  edit.onclick=()=>editScript(item);
+
+  const del=document.createElement("button");
+  del.textContent="HAPUS";
+  del.onclick=()=>deleteScript(item.id);
+
+  div.append(edit,del);
+  list.append(div);
+ });
+}
+
+async function editScript(item){
+ const name=prompt("Nama Script:",item.Name);
+ if(name===null)return;
+
+ const game=prompt("Nama Game:",item.Game);
+ if(game===null)return;
+
+ const description=prompt("Deskripsi:",item.Description || "");
+ if(description===null)return;
+
+ const script=prompt("Isi Script:",item.Scripts || "");
+ if(script===null)return;
+
+ const key=prompt("Link Key:",item.Key_link || "");
+ if(key===null)return;
+
+ const {error}=await db.from("scripts").update({
+  Name:name,
+  Game:game,
+  Description:description,
+  Scripts:script,
+  Key_link:key || null
+ }).eq("id",item.id);
+
+ if(error){
+  alert("Gagal mengedit: "+error.message);
+  return;
+ }
+
+ alert("Script berhasil diedit!");
+ loadScripts();
+ loadAdminScripts();
+}
+
+async function deleteScript(id){
+ if(!confirm("Yakin ingin menghapus script ini?"))return;
+
+ const {error}=await db.from("scripts").delete().eq("id",id);
+
+ if(error){
+  alert("Gagal menghapus: "+error.message);
+  return;
+ }
+
+ alert("Script berhasil dihapus!");
+ loadScripts();
+ loadAdminScripts();
+}
+
+db.auth.getSession().then(({data})=>{
+ if(data.session){
+  showAdmin();
+ }
+});
 loadScripts();
 </script>
 </body>
