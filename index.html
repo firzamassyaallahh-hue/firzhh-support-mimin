@@ -124,6 +124,21 @@ function searchScripts(){
 
   card.append(title,game,desc);
 
+const copyBtn = document.createElement("button");
+copyBtn.className = "btn";
+copyBtn.textContent = "📋 SALIN SCRIPT";
+
+copyBtn.onclick = async () => {
+  try {
+    await navigator.clipboard.writeText(item.game || "");
+    copyBtn.textContent = "✅ BERHASIL DISALIN";
+  } catch(error) {
+    alert("Gagal menyalin!");
+  }
+};
+
+card.append(copyBtn);
+
   if(item.key_link){
    const link = document.createElement("a");
    link.className = "btn";
