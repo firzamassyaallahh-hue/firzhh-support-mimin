@@ -27,6 +27,99 @@ button:hover,.btn:hover{background:#0865cf}
 footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 .danger{background:#b83245}
 .green{background:#087c65}
+  /* FIRZHH GLOBAL CHAT POPUP */
+.chat-launcher{
+ width:100%;
+ margin:0 0 15px;
+ background:linear-gradient(135deg,#087cff,#1646a0);
+ font-size:15px;
+ letter-spacing:1px;
+}
+
+.chat-overlay{
+ position:fixed;
+ inset:0;
+ z-index:9999;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
+ background:rgba(0,5,15,.55);
+ backdrop-filter:blur(8px);
+ -webkit-backdrop-filter:blur(8px);
+}
+
+.chat-window{
+ width:100%;
+ max-width:480px;
+ height:min(620px,85vh);
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ background:#050912;
+ border:1px solid #1765a8;
+ border-radius:17px;
+ box-shadow:0 20px 70px rgba(0,0,0,.65);
+}
+
+.chat-header{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:16px;
+ background:#0b1930;
+ border-bottom:1px solid #17436d;
+}
+
+.chat-header h2{
+ margin:0;
+}
+
+.chat-close{
+ margin:0;
+ padding:8px 12px;
+ background:#26364d;
+}
+
+.chat-content{
+ flex:1;
+ min-height:0;
+ display:flex;
+ flex-direction:column;
+ padding:12px;
+ overflow:hidden;
+}
+
+#chatMessages{
+ flex:1;
+ min-height:0;
+ overflow-y:auto;
+ background:#080f1c;
+ border:1px solid #1c3553;
+ border-radius:12px;
+ padding:12px;
+}
+
+.chat-input-row{
+ display:flex;
+ gap:8px;
+ align-items:center;
+}
+
+.chat-input-row input{
+ flex:1;
+ min-width:0;
+}
+
+.chat-input-row button{
+ flex-shrink:0;
+}
+
+@media(max-width:480px){
+ .chat-window{
+  height:85vh;
+ }
+}
 </style>
 </head>
 <body>
@@ -38,7 +131,9 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 </header>
 
 <main>
-
+<button class="chat-launcher" onclick="openGlobalChat()">
+💬 GLOBAL CHAT
+</button>
 <section class="panel">
 <h2>🔎 Cari Script</h2>
 <p class="muted">Temukan script berdasarkan nama script atau game.</p>
@@ -70,36 +165,53 @@ target="_blank" rel="noopener noreferrer">
 <button onclick="sendSuggestion()">KIRIM SARAN</button>
 </section>
 
-<section class="panel" id="globalChat">
-  <h2>💬 FIRZHH GLOBAL CHAT</h2>
-  <p class="muted">Tempat berkumpul dan ngobrol bersama komunitas Firzhh.</p>
+<div id="chatOverlay" class="chat-overlay hidden">
+  <div class="chat-window">
 
-  <div id="chatNameSetup">
-    <input id="chatName" maxlength="24" placeholder="Masukkan nama pengguna...">
-    <button onclick="joinGlobalChat()">MASUK GLOBAL CHAT</button>
-  </div>
-
-  <div id="chatArea" class="hidden">
-    <div id="chatMessages" style="height:350px;overflow-y:auto;background:#050c18;border:1px solid #23568a;border-radius:10px;padding:12px">
-      Memuat pesan...
+    <div class="chat-header">
+      <h2>🌐 FIRZHH GLOBAL CHAT</h2>
+      <button class="chat-close" onclick="closeGlobalChat()">✕</button>
     </div>
 
-<div id="chatOwnerTools" class="adminCard hidden">
-  <h3>👑 OWNER CHAT CONTROL</h3>
-  <p class="muted">Khusus Owner: kelola Admin Global Chat.</p>
+    <div class="chat-content">
 
-  <input id="chatAdminName" maxlength="24"
-  placeholder="Masukkan nama pengguna...">
+      <div id="chatNameSetup">
+        <h3>Selamat Datang! 👽</h3>
+        <p class="muted">
+          Masukkan nama untuk berkomunikasi bersama orang lain.
+        </p>
+        <input id="chatName" maxlength="24"
+        placeholder="Masukkan nama pengguna...">
+        <button onclick="joinGlobalChat()">MASUK CHAT</button>
+      </div>
 
-  <button onclick="makeChatAdmin()">🛡️ TAMBAH ADMIN CHAT</button>
+      <div id="chatArea" class="hidden"
+      style="flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;">
 
-  <button class="danger" onclick="removeChatAdmin()">CABUT ADMIN CHAT</button>
-</div>
-    
-    <input id="chatInput" maxlength="1000" placeholder="Tulis pesan...">
-    <button onclick="sendChatMessage()">KIRIM PESAN</button>
+        <div id="chatMessages"
+        style="height:auto!important;flex:1;min-height:0;overflow-y:auto;background:#080f1c;border:1px solid #1c3553;border-radius:10px;padding:12px;">
+          Memuat pesan...
+        </div>
+
+        <div id="chatOwnerTools" class="adminCard hidden">
+          <h3>👑 OWNER CHAT CONTROL</h3>
+          <p class="muted">Khusus Owner: kelola Admin Global Chat.</p>
+          <input id="chatAdminName" maxlength="24"
+          placeholder="Masukkan nama pengguna...">
+          <button onclick="makeChatAdmin()">🛡️ TAMBAH ADMIN CHAT</button>
+          <button class="danger" onclick="removeChatAdmin()">CABUT ADMIN CHAT</button>
+        </div>
+
+        <div class="chat-input-row">
+          <input id="chatInput" maxlength="1000"
+          placeholder="Tulis pesan...">
+          <button onclick="sendChatMessage()">KIRIM</button>
+        </div>
+
+      </div>
+    </div>
   </div>
-</section>
+</div>
  
 <section id="adminBox">
 <h2>🔐 FIRZHH ADMIN PANEL</h2>
@@ -604,7 +716,15 @@ async function removeChatAdmin(){
 // PULIHKAN CHAT SAAT WEBSITE DIBUKA
 
 restoreGlobalChat();
-   
+function openGlobalChat(){
+  $("chatOverlay").classList.remove("hidden");
+  document.body.style.overflow="hidden";
+}
+
+function closeGlobalChat(){
+  $("chatOverlay").classList.add("hidden");
+  document.body.style.overflow="";
+}   
 // LOGIN ADMIN
 
 async function adminLogin(){
