@@ -144,6 +144,114 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
   margin:9px 0 0;
 }
 </style>
+  
+<style>
+/* FIRZHH WELCOME EXPERIENCE */
+#welcomeOverlay{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,5,18,.72);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  animation:welcomeFade .5s ease;
+}
+#welcomeOverlay.hidden{display:none}
+
+.welcome-card{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  max-width:420px;
+  padding:30px 24px;
+  border:1px solid rgba(65,155,255,.45);
+  border-radius:22px;
+  background:linear-gradient(145deg,#101d35,#050b18);
+  box-shadow:0 0 35px rgba(0,120,255,.25);
+  color:white;
+  text-align:center;
+  animation:welcomeEnter .65s ease;
+}
+
+.welcome-card:before{
+  content:"";
+  position:absolute;
+  width:180%;
+  height:2px;
+  top:20%;
+  left:-40%;
+  background:linear-gradient(90deg,transparent,#65baff,white,#247bff,transparent);
+  box-shadow:0 0 15px #278cff;
+  animation:lightning 3s linear infinite;
+}
+
+.welcome-icon{
+  font-size:48px;
+  margin-bottom:10px;
+  filter:drop-shadow(0 0 12px #249cff);
+}
+
+.welcome-card h2{
+  color:#68baff;
+  font-size:27px;
+  margin:8px 0;
+  text-shadow:0 0 15px #147cff;
+}
+
+.welcome-card p{
+  color:#b8cce8;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.welcome-guide{
+  margin:20px 0;
+  padding:14px;
+  border:1px solid #234d7d;
+  border-radius:13px;
+  background:rgba(25,75,130,.16);
+  text-align:left;
+}
+
+.welcome-button{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:linear-gradient(90deg,#1266c4,#269cff);
+  color:white;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+  box-shadow:0 0 20px rgba(30,130,255,.35);
+}
+
+.welcome-footer{
+  margin-top:18px;
+  font-size:10px;
+  letter-spacing:2px;
+  color:#6e91ba;
+}
+
+@keyframes welcomeFade{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes welcomeEnter{
+  from{opacity:0;transform:translateY(25px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes lightning{
+  0%{transform:translateX(-60%) rotate(-12deg)}
+  50%{transform:translateX(60%) rotate(12deg)}
+  100%{transform:translateX(-60%) rotate(-12deg)}
+}
+</style>
+  
 </head>
 <body>
 
