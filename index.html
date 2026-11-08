@@ -268,6 +268,343 @@ function searchScripts(){
  });
 }
 
+// =====================================
+// FIRZHH GLOBAL CHAT
+// =====================================
+
+let chatCurrentUser = null;
+let chatCurrentRole = "member";
+let chatChannel = null;
+
+async function ensureChatSession(){
+ const {data,error}=await db.auth.getSession();
+
+ if(error) throw error;
+
+ if(data.session){
+  chatCurrentUser=data.session.user;
+  return chatCurrentUser;
+ }
+
+ const {data:authData,error:authError}=
+  await db.auth.signInAnonymously();
+
+ if(authError) throw authError;
+
+ chatCurrentUser=authData.user;
+ return chatCurrentUser;
+}
+
+async function activateGlobalChat(name){
+ $("chatNameSetup").classList.add("hidden");
+ $("chatArea").classList.remove("hidden");
+
+ const roleResult=await db.rpc("chat_my_role");
+
+ if(roleResult.error){
+  alert("Gagal memeriksa role: "+roleResult.error.message);
+  return;
+ }
+
+ chatCurrentRole=roleResult.data||"member";
+
+ $("chatOwnerTools").classList.toggle(
+  "hidden",chatCurrentRole!=="owner"
+ );
+
+ let info=$("chatRoleInfo");
+
+ if(!info){
+  info=document.createElement("p");
+  info.id="chatRoleInfo";
+  info.className="muted";
+  $("chatArea").prepend(info);
+ }
+
+ info.textContent="Masuk sebagai "+name+" • "+
+  chatCurrentRole.toUpperCase();
+
+ await loadChatMessages();
+
+ if(chatChannel){
+  await db.removeChannel(chatChannel);
+ }
+
+ chatChannel=db.channel("firzhh-global-chat")
+ .on("postgres_changes",{
+  event:"*",
+  schema:"public",
+  table:"chat_messages"
+ },()=>{
+  loadChatMessages();
+ })
+ .subscribe();
+}
+
+async function joinGlobalChat(){
+ const name=$("chatName").value.trim();
+
+ if(name.length<2||name.length>24){
+  alert("Nama harus 2 sampai 24 karakter!");
+  return;
+ }
+
+ try{
+  await ensureChatSession();
+
+  const {error}=await db.rpc(
+   "chat_set_display_name",
+   {p_name:name}
+  );
+
+  if(error){
+   alert("Gagal menyimpan nama: "+error.message);
+   return;
+  }
+
+  localStorage.setItem("firzhh_chat_name",name);
+
+  await activateGlobalChat(name);
+
+ }catch(error){
+  alert("Gagal masuk chat: "+error.message);
+ }
+}
+
+// PULIHKAN NAMA PENGGUNA
+
+async function restoreGlobalChat(){
+ try{
+  let {data}=await db.auth.getSession();
+  let savedName=localStorage.getItem("firzhh_chat_name");
+
+  if(!data.session&&!savedName)return;
+
+  await ensureChatSession();
+
+  const {data:profile,error}=await db.from("chat_profiles")
+   .select("display_name")
+   .eq("user_id",chatCurrentUser.id)
+   .maybeSingle();
+
+  if(error)throw error;
+
+  let name=profile?.display_name;
+
+  if(!name&&savedName){
+   const {data:newName,error:nameError}=await db.rpc(
+    "chat_set_display_name",
+    {p_name:savedName}
+   );
+
+   if(nameError)throw nameError;
+   name=newName;
+  }
+
+  if(name){
+   $("chatName").value=name;
+   localStorage.setItem("firzhh_chat_name",name);
+   await activateGlobalChat(name);
+  }
+
+ }catch(error){
+  console.error("Chat restore:",error);
+ }
+}
+
+// MUAT PESAN
+
+async function loadChatMessages(){
+ const box=$("chatMessages");
+
+ const {data:messages,error}=await db.from("chat_messages")
+  .select("*")
+  .order("created_at",{ascending:true})
+  .limit(100);
+
+ if(error){
+  box.textContent="Gagal memuat pesan: "+error.message;
+  return;
+ }
+
+ box.replaceChildren();
+
+ if(!messages||!messages.length){
+  box.textContent="Belum ada pesan. Jadilah yang pertama!";
+  return;
+ }
+
+ const ids=[...new Set(messages.map(m=>m.sender_id))];
+
+ const [profilesResult,rolesResult]=await Promise.all([
+  db.from("chat_profiles")
+   .select("user_id,display_name")
+   .in("user_id",ids),
+
+  db.rpc("chat_get_user_roles",{p_user_ids:ids})
+ ]);
+
+ if(profilesResult.error||rolesResult.error){
+  box.textContent="Gagal memuat identitas pengguna.";
+  return;
+ }
+
+ const profiles=new Map(
+  (profilesResult.data||[]).map(p=>[p.user_id,p.display_name])
+ );
+
+ const roles=new Map(
+  (rolesResult.data||[]).map(r=>[r.user_id,r.role])
+ );
+
+ messages.forEach(item=>{
+  const role=roles.get(item.sender_id)||"member";
+  const name=profiles.get(item.sender_id)||"Pengguna";
+
+  const card=document.createElement("div");
+  card.style.cssText=
+   "background:#eaf4ff;padding:12px;border-radius:10px;margin-bottom:10px;color:#101827;";
+
+  const author=document.createElement("b");
+
+  author.textContent=name+" "+
+   (role==="owner"?"👑 OWNER":
+    role==="admin"?"🔵 ADMIN":"MEMBER");
+
+  author.style.color=
+   role==="owner"?"#d49b00":
+   role==="admin"?"#087cff":"#111111";
+
+  const message=document.createElement("p");
+  message.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;";
+  message.textContent=item.message;
+
+  const date=document.createElement("small");
+  date.style.color="#64748b";
+  date.textContent=new Date(item.created_at)
+   .toLocaleString("id-ID");
+
+  card.append(author,message,date);
+
+  if(chatCurrentRole==="owner"||chatCurrentRole==="admin"){
+   const del=document.createElement("button");
+   del.className="danger";
+   del.textContent="HAPUS PESAN";
+   del.onclick=()=>deleteChatMessage(item.id);
+   card.append(del);
+  }
+
+  box.append(card);
+ });
+
+ box.scrollTop=box.scrollHeight;
+}
+
+// KIRIM PESAN
+
+async function sendChatMessage(){
+ const input=$("chatInput");
+ const message=input.value.trim();
+
+ if(!message)return;
+
+ if(!chatCurrentUser){
+  alert("Silakan masuk Global Chat dahulu.");
+  return;
+ }
+
+ const {error}=await db.from("chat_messages").insert({
+  sender_id:chatCurrentUser.id,
+  message:message
+ });
+
+ if(error){
+  alert("Gagal mengirim: "+error.message);
+  return;
+ }
+
+ input.value="";
+ await loadChatMessages();
+}
+
+// HAPUS PESAN
+
+async function deleteChatMessage(id){
+ if(!confirm("Yakin ingin menghapus pesan ini?"))return;
+
+ const {error}=await db.from("chat_messages")
+  .delete().eq("id",id);
+
+ if(error){
+  alert("Gagal menghapus: "+error.message);
+  return;
+ }
+
+ await loadChatMessages();
+}
+
+// TAMBAH ADMIN CHAT - OWNER SAJA
+
+async function makeChatAdmin(){
+ if(chatCurrentRole!=="owner"){
+  alert("Khusus Owner!");
+  return;
+ }
+
+ const name=$("chatAdminName").value.trim();
+
+ if(!name){
+  alert("Masukkan nama pengguna!");
+  return;
+ }
+
+ const {data,error}=await db.rpc("chat_make_admin",{
+  p_name:name
+ });
+
+ if(error){
+  alert("Gagal: "+error.message);
+  return;
+ }
+
+ alert(data);
+ $("chatAdminName").value="";
+ await loadChatMessages();
+}
+
+// CABUT ADMIN CHAT - OWNER SAJA
+
+async function removeChatAdmin(){
+ if(chatCurrentRole!=="owner"){
+  alert("Khusus Owner!");
+  return;
+ }
+
+ const name=$("chatAdminName").value.trim();
+
+ if(!name){
+  alert("Masukkan nama Admin Chat!");
+  return;
+ }
+
+ const {data,error}=await db.rpc("chat_remove_admin",{
+  p_name:name
+ });
+
+ if(error){
+  alert("Gagal: "+error.message);
+  return;
+ }
+
+ alert(data);
+ $("chatAdminName").value="";
+ await loadChatMessages();
+}
+
+// PULIHKAN CHAT SAAT WEBSITE DIBUKA
+
+restoreGlobalChat();
+   
 // LOGIN ADMIN
 
 async function adminLogin(){
