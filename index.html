@@ -320,6 +320,99 @@ db.auth.getSession().then(({data})=>{
  }
 });
 loadScripts();
+ // ===== FIRZHH SARAN & KRITIK =====
+
+document.querySelector('main').insertAdjacentHTML('beforeend', `
+<section class="panel" id="suggestionPanel">
+<h2>💬 Saran / Kritik</h2>
+<p class="muted">Berikan masukan untuk FIRZHH SUPPORT MIMIN.</p>
+<input id="suggestionName" placeholder="Nama (opsional)">
+<textarea id="suggestionMessage" placeholder="Tulis saran atau kritik..."></textarea>
+<button onclick="sendSuggestion()">KIRIM SARAN</button>
+</section>
+`);
+
+document.getElementById('adminTools').insertAdjacentHTML('afterbegin', `
+<div style="text-align:right">
+<button onclick="toggleOwnMenu()">👑 MENU OWN</button>
+</div>
+<div id="ownMenu" style="display:none;background:#07101e;padding:15px;border-radius:12px;margin:10px 0">
+<h3>💬 Saran & Kritik Masuk</h3>
+<div id="ownSuggestions">Memuat pesan...</div>
+</div>
+`);
+
+async function sendSuggestion(){
+const name = document.getElementById('suggestionName').value.trim();
+const message = document.getElementById('suggestionMessage').value.trim();
+
+if(!message){
+alert('Pesan belum diisi!');
+return;
+}
+
+const {error} = await db.from('suggestions').insert({
+name: name || 'Anonim',
+message: message
+});
+
+if(error){
+alert('Gagal mengirim: ' + error.message);
+return;
+}
+
+alert('Saran berhasil dikirim! Terima kasih.');
+document.getElementById('suggestionName').value = '';
+document.getElementById('suggestionMessage').value = '';
+}
+
+function toggleOwnMenu(){
+const menu = document.getElementById('ownMenu');
+menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+
+if(menu.style.display === 'block'){
+loadOwnSuggestions();
+}
+}
+
+async function loadOwnSuggestions(){
+const container = document.getElementById('ownSuggestions');
+container.textContent = 'Memuat pesan...';
+
+const {data,error} = await db
+.from('suggestions')
+.select('*')
+.order('created_at',{ascending:false});
+
+if(error){
+container.textContent = 'Gagal memuat pesan: ' + error.message;
+return;
+}
+
+container.innerHTML = '';
+
+if(!data || data.length === 0){
+container.textContent = 'Belum ada saran atau kritik.';
+return;
+}
+
+data.forEach(item => {
+const card = document.createElement('div');
+card.style.cssText = 'background:#101d30;padding:12px;margin:10px 0;border-radius:10px;border:1px solid #168cff';
+
+const author = document.createElement('b');
+author.textContent = item.name || 'Anonim';
+
+const message = document.createElement('p');
+message.textContent = item.message;
+
+const date = document.createElement('small');
+date.textContent = new Date(item.created_at).toLocaleString('id-ID');
+
+card.append(author,message,date);
+container.appendChild(card);
+});
+}
 </script>
 </body>
 </html>
