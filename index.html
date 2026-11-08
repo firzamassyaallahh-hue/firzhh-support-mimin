@@ -255,6 +255,45 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 </head>
 <body>
 
+<div id="welcomeOverlay">
+  <div class="welcome-card">
+
+    <div class="welcome-icon">👽⚡</div>
+
+    <h2>WELCOME</h2>
+
+    <h3>FIRZHH SUPPORT MIMIN</h3>
+
+    <p>
+      Your Script. Your Community.
+      Your Experience.
+    </p>
+
+    <div class="welcome-guide">
+      <strong>💻 TIPS UNTUK PENGUNJUNG</strong>
+      <p>
+        Aktifkan fitur <b>Situs Desktop</b>
+        pada browser untuk mendapatkan
+        tampilan website yang lebih nyaman.
+      </p>
+      <p>
+        ⚡ Jelajahi koleksi script dan
+        nikmati fitur komunitas FIRZHH.
+      </p>
+    </div>
+
+    <button class="welcome-button"
+      onclick="closeWelcome()">
+      MULAI MENJELAJAHI →
+    </button>
+
+    <div class="welcome-footer">
+      BY: OFFICIAL FIRZHH GROUP
+    </div>
+
+  </div>
+</div>
+  
 <header>
 <div class="logo">👽</div>
 <h1>FIRZHH SUPPORT MIMIN</h1>
@@ -1299,5 +1338,24 @@ async function initialize(){
 
 initialize();
 </script>
+
+<script>
+function closeWelcome(){
+  localStorage.setItem("firzhhWelcomeSeen","1");
+
+  document
+    .getElementById("welcomeOverlay")
+    .classList.add("hidden");
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+  if(localStorage.getItem("firzhhWelcomeSeen")==="1"){
+    document
+      .getElementById("welcomeOverlay")
+      .classList.add("hidden");
+  }
+});
+</script>
+  
 </body>
 </html>
