@@ -1672,5 +1672,59 @@ function closeFirzhhUpdates(){
     .classList.remove("active");
 }
 </script>
+  <style>
+#firzhhAuroraBg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 20% 20%,#073b8055,transparent 45%),
+    radial-gradient(ellipse at 80% 75%,#173d9950,transparent 45%);
+}
+
+#firzhhAuroraBg::before,
+#firzhhAuroraBg::after{
+  content:"";
+  position:absolute;
+  width:75vw;
+  height:75vw;
+  max-width:700px;
+  max-height:700px;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:.35;
+  animation:firzhhAuroraMove 16s ease-in-out infinite alternate;
+}
+
+#firzhhAuroraBg::before{
+  background:#075bff;
+  top:-25%;
+  left:-20%;
+}
+
+#firzhhAuroraBg::after{
+  background:#4230bd;
+  bottom:-30%;
+  right:-20%;
+  animation-delay:-8s;
+}
+
+@keyframes firzhhAuroraMove{
+  0%{transform:translate(0,0) scale(.9)}
+  50%{transform:translate(15%,12%) scale(1.2)}
+  100%{transform:translate(-10%,20%) scale(1)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #firzhhAuroraBg::before,
+  #firzhhAuroraBg::after{
+    animation:none;
+  }
+}
+</style>
+
+<div id="firzhhAuroraBg"></div>
 </body>
 </html>
