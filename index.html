@@ -84,6 +84,18 @@ target="_blank" rel="noopener noreferrer">
       Memuat pesan...
     </div>
 
+<div id="chatOwnerTools" class="adminCard hidden">
+  <h3>👑 OWNER CHAT CONTROL</h3>
+  <p class="muted">Khusus Owner: kelola Admin Global Chat.</p>
+
+  <input id="chatAdminName" maxlength="24"
+  placeholder="Masukkan nama pengguna...">
+
+  <button onclick="makeChatAdmin()">🛡️ TAMBAH ADMIN CHAT</button>
+
+  <button class="danger" onclick="removeChatAdmin()">CABUT ADMIN CHAT</button>
+</div>
+    
     <input id="chatInput" maxlength="1000" placeholder="Tulis pesan...">
     <button onclick="sendChatMessage()">KIRIM PESAN</button>
   </div>
