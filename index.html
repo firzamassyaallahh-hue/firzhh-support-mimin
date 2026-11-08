@@ -281,8 +281,23 @@ target="_blank" rel="noopener noreferrer">
 <h3>👑 MENU OWNER</h3>
 <p class="muted">Pengelolaan khusus pemilik website.</p>
 <h3>🛡️ Kelola Admin</h3>
-<input id="adminEmailNew" type="email" placeholder="Email admin yang sudah diundang">
-<button onclick="addAdmin()">TAMBAHKAN ADMIN</button>
+
+<input
+ id="adminEmailNew"
+ type="email"
+ placeholder="Email admin baru"
+>
+
+<input
+ id="adminPasswordNew"
+ type="password"
+ placeholder="Password admin baru (minimal 8 karakter)"
+>
+
+<button onclick="addAdminWithPassword()">
+ 👑 TAMBAH ADMIN
+</button>
+
 <div id="adminList">Memuat admin...</div>
 </div>
 
@@ -1024,21 +1039,39 @@ async function loadAdminUsers(){
  });
 }
 
-async function addAdmin(){
+async function addAdminWithPassword(){
+ if(currentRole!=="owner"){
+  alert("Akses khusus Owner!");
+  return;
+ }
+
  const email=$("adminEmailNew").value.trim().toLowerCase();
+ const password=$("adminPasswordNew").value;
 
- if(!email){
-  alert("Masukkan email admin!");
+ if(!email || !email.includes("@")){
+  alert("Masukkan email yang valid!");
   return;
  }
 
- if(email===OWNER_EMAIL){
-  alert("Email owner tidak bisa ditambahkan sebagai admin.");
+ if(password.length<8){
+  alert("Password minimal 8 karakter!");
   return;
  }
 
- const {error}=await db.rpc("firzhh_add_admin",{
-  p_email:email
+ if(email===OWNER_EMAIL.toLowerCase()){
+  alert("Email owner tidak bisa ditambahkan!");
+  return;
+ }
+
+ const {data:{session}}=await db.auth.getSession();
+
+ if(!session){
+  alert("Login Owner terlebih dahulu!");
+  return;
+ }
+
+ const {data,error}=await db.functions.invoke("super-service",{
+  body:{email,password}
  });
 
  if(error){
@@ -1046,9 +1079,15 @@ async function addAdmin(){
   return;
  }
 
- alert("Admin berhasil ditambahkan!");
+ if(data?.error){
+  alert("Gagal: "+data.error);
+  return;
+ }
+
+ alert("Admin berhasil dibuat!");
  $("adminEmailNew").value="";
- loadAdminUsers();
+ $("adminPasswordNew").value="";
+ await loadAdminUsers();
 }
 
 // SARAN & KRITIK
