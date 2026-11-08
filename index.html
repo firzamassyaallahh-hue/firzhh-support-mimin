@@ -70,6 +70,25 @@ target="_blank" rel="noopener noreferrer">
 <button onclick="sendSuggestion()">KIRIM SARAN</button>
 </section>
 
+<section class="panel" id="globalChat">
+  <h2>💬 FIRZHH GLOBAL CHAT</h2>
+  <p class="muted">Tempat berkumpul dan ngobrol bersama komunitas Firzhh.</p>
+
+  <div id="chatNameSetup">
+    <input id="chatName" maxlength="24" placeholder="Masukkan nama pengguna...">
+    <button onclick="joinGlobalChat()">MASUK GLOBAL CHAT</button>
+  </div>
+
+  <div id="chatArea" class="hidden">
+    <div id="chatMessages" style="height:350px;overflow-y:auto;background:#050c18;border:1px solid #23568a;border-radius:10px;padding:12px">
+      Memuat pesan...
+    </div>
+
+    <input id="chatInput" maxlength="1000" placeholder="Tulis pesan...">
+    <button onclick="sendChatMessage()">KIRIM PESAN</button>
+  </div>
+</section>
+ 
 <section id="adminBox">
 <h2>🔐 FIRZHH ADMIN PANEL</h2>
 
