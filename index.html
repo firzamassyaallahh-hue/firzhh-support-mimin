@@ -1546,5 +1546,131 @@ aria-label="Kembali ke atas">
 <div id="firzhhVersion">
   👽 FIRZHH SYSTEM <strong>V2.0.1</strong>
 </div>
+  <style>
+#firzhhUpdateBtn{
+  position:fixed;
+  left:14px;
+  bottom:65px;
+  padding:10px 14px;
+  border:1px solid #287dff;
+  border-radius:12px;
+  background:#08172d;
+  color:#b8d8ff;
+  font-weight:700;
+  font-size:11px;
+  box-shadow:0 0 15px #147cff55;
+  z-index:9988;
+  cursor:pointer;
+}
+#firzhhUpdateOverlay{
+  position:fixed;
+  inset:0;
+  background:#000b;
+  backdrop-filter:blur(7px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:10000;
+}
+#firzhhUpdateOverlay.active{
+  display:flex;
+}
+.firzhh-update-card{
+  width:100%;
+  max-width:380px;
+  max-height:75vh;
+  overflow-y:auto;
+  background:#081426;
+  border:1px solid #287dff88;
+  border-radius:18px;
+  padding:20px;
+  color:white;
+  box-shadow:0 0 30px #087bff33;
+}
+.firzhh-update-card h2{
+  color:#80baff;
+  margin-top:0;
+}
+.firzhh-update-item{
+  border-left:2px solid #278cff;
+  padding:2px 0 12px 13px;
+  margin:15px 0;
+}
+.firzhh-update-item strong{
+  color:#fff;
+}
+.firzhh-update-item p{
+  color:#a9bad2;
+  font-size:13px;
+  margin:5px 0;
+}
+#firzhhUpdateClose{
+  width:100%;
+  padding:11px;
+  border:0;
+  border-radius:10px;
+  background:#176dce;
+  color:white;
+  font-weight:bold;
+  margin-top:10px;
+}
+</style>
+
+<button id="firzhhUpdateBtn"
+onclick="openFirzhhUpdates()">
+  ✨ UPDATE LOG
+</button>
+
+<div id="firzhhUpdateOverlay"
+onclick="if(event.target===this)closeFirzhhUpdates()">
+  <div class="firzhh-update-card">
+    <h2>👽 FIRZHH UPDATE LOG</h2>
+    <p style="color:#91a9c9;font-size:12px">
+      Riwayat pembaruan FIRZHH SUPPORT MIMIN
+    </p>
+
+    <div class="firzhh-update-item">
+      <strong>VERSION 2.0.1</strong>
+      <p>Website Version Badge ditambahkan.</p>
+    </div>
+
+    <div class="firzhh-update-item">
+      <strong>NEON SCROLL TO TOP</strong>
+      <p>Tombol kembali ke atas ditambahkan.</p>
+    </div>
+
+    <div class="firzhh-update-item">
+      <strong>FIRZHH AURORA CLOCK</strong>
+      <p>Jam digital WIB ditambahkan.</p>
+    </div>
+
+    <div class="firzhh-update-item">
+      <strong>WELCOME POPUP</strong>
+      <p>Tampilan sambutan pengunjung ditambahkan.</p>
+    </div>
+
+    <p style="color:#78aaff;font-size:11px">
+      BY: OFFICIAL FIRZHH GROUP
+    </p>
+
+    <button id="firzhhUpdateClose"
+    onclick="closeFirzhhUpdates()">
+      TUTUP
+    </button>
+  </div>
+</div>
+
+<script>
+function openFirzhhUpdates(){
+  document.getElementById("firzhhUpdateOverlay")
+    .classList.add("active");
+}
+
+function closeFirzhhUpdates(){
+  document.getElementById("firzhhUpdateOverlay")
+    .classList.remove("active");
+}
+</script>
 </body>
 </html>
