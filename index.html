@@ -524,7 +524,7 @@ async function restoreGlobalChat(){
  }
 }
 
-// MUAT PESAN
+// MUAT PESAN - WHATSAPP STYLE
 
 async function loadChatMessages(){
  const box=$("chatMessages");
@@ -572,41 +572,56 @@ async function loadChatMessages(){
  messages.forEach(item=>{
   const role=roles.get(item.sender_id)||"member";
   const name=profiles.get(item.sender_id)||"Pengguna";
+  const mine=item.sender_id===chatCurrentUser.id;
+  const wrapper=document.createElement("div");
+  wrapper.style.cssText=
+   "display:flex;width:100%;justify-content:"+
+   (mine?"flex-end":"flex-start")+
+   ";margin-bottom:10px;";
 
-  const card=document.createElement("div");
-  card.style.cssText=
-   "background:#eaf4ff;padding:12px;border-radius:10px;margin-bottom:10px;color:#101827;";
+  const bubble=document.createElement("div");
+  bubble.style.cssText=
+   "max-width:78%;min-width:75px;padding:9px 12px;"+
+   "border-radius:13px;background:"+
+   (mine?"#075e50":"#172638")+
+   ";color:#f1f5f9;overflow-wrap:anywhere;";
 
   const author=document.createElement("b");
-
   author.textContent=name+" "+
    (role==="owner"?"👑 OWNER":
-    role==="admin"?"🔵 ADMIN":"MEMBER");
+    role==="admin"?"🔵 ADMIN":"");
+  author.style.cssText=
+   "display:block;font-size:12px;margin-bottom:5px;color:"+
+   (role==="owner"?"#ffd166":
+    role==="admin"?"#60a5fa":"#9bb8d4");
 
-  author.style.color=
-   role==="owner"?"#d49b00":
-   role==="admin"?"#087cff":"#111111";
-
-  const message=document.createElement("p");
-  message.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;";
+  const message=document.createElement("div");
+  message.style.cssText=
+   "white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;";
   message.textContent=item.message;
 
   const date=document.createElement("small");
-  date.style.color="#64748b";
+  date.style.cssText=
+   "display:block;text-align:right;margin-top:5px;color:#a9bdc9;font-size:10px;";
   date.textContent=new Date(item.created_at)
-   .toLocaleString("id-ID");
+   .toLocaleTimeString("id-ID",{
+    hour:"2-digit",
+    minute:"2-digit"
+   });
 
-  card.append(author,message,date);
+  bubble.append(author,message,date);
 
   if(chatCurrentRole==="owner"||chatCurrentRole==="admin"){
    const del=document.createElement("button");
    del.className="danger";
-   del.textContent="HAPUS PESAN";
+   del.textContent="HAPUS";
+   del.style.cssText="margin-top:7px;padding:5px 9px;font-size:11px;";
    del.onclick=()=>deleteChatMessage(item.id);
-   card.append(del);
+   bubble.append(del);
   }
 
-  box.append(card);
+  wrapper.append(bubble);
+  box.append(wrapper);
  });
 
  box.scrollTop=box.scrollHeight;
