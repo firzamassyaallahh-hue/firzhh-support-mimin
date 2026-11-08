@@ -1726,5 +1726,42 @@ function closeFirzhhUpdates(){
 </style>
 
 <div id="firzhhAuroraBg"></div>
+  <style>
+#firzhhFullscreenBtn {
+  position: fixed;
+  bottom: 85px;
+  right: 18px;
+  z-index: 99999;
+  background: linear-gradient(135deg,#075bff,#4230bd);
+  color: white;
+  border: 1px solid #70a5ff;
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 18px #075bff80;
+}
+</style>
+
+<button id="firzhhFullscreenBtn"
+onclick="firzhhToggleFullscreen()">
+⛶ FULLSCREEN
+</button>
+
+<script>
+function firzhhToggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.()
+      .catch(() => alert("Fullscreen tidak didukung browser ini."));
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+document.addEventListener("fullscreenchange", () => {
+  document.getElementById("firzhhFullscreenBtn").innerHTML =
+    document.fullscreenElement ? "✕ EXIT FULLSCREEN" : "⛶ FULLSCREEN";
+});
+      </script>
 </body>
 </html>
