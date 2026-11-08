@@ -1357,5 +1357,132 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 </script>
   
+<style>
+#firzhhClock{
+  position:relative;
+  overflow:hidden;
+  margin:18px auto;
+  padding:22px 16px;
+  max-width:430px;
+  text-align:center;
+  color:white;
+  border:1px solid rgba(112,145,255,.35);
+  border-radius:20px;
+  background:rgba(9,17,39,.88);
+  box-shadow:0 0 25px rgba(60,100,255,.16);
+  isolation:isolate;
+}
+#firzhhClock:before,
+#firzhhClock:after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:180%;
+  height:150%;
+  top:-30%;
+  left:-40%;
+  filter:blur(35px);
+  opacity:.45;
+  border-radius:50%;
+  animation:auroraMove 8s ease-in-out infinite alternate;
+}
+#firzhhClock:before{
+  background:linear-gradient(120deg,#075bff,#8b5cf6,transparent);
+}
+#firzhhClock:after{
+  background:linear-gradient(220deg,#00c8ff,transparent,#5135bd);
+  animation-delay:-4s;
+}
+#firzhhClock .clock-label{
+  font-size:11px;
+  letter-spacing:3px;
+  color:#9bbcff;
+}
+#firzhhClock .clock-time{
+  font-size:clamp(35px,10vw,48px);
+  font-weight:800;
+  letter-spacing:3px;
+  margin:12px 0;
+  text-shadow:0 0 20px #398cff;
+  font-variant-numeric:tabular-nums;
+}
+#firzhhClock .clock-date{
+  color:#c5d5f7;
+  font-size:13px;
+}
+#firzhhClock .clock-greeting{
+  margin-top:12px;
+  font-size:16px;
+  font-weight:700;
+  color:#72baff;
+}
+@keyframes auroraMove{
+  from{transform:translate(-12%,0) rotate(-12deg) scale(1)}
+  to{transform:translate(12%,10%) rotate(15deg) scale(1.2)}
+}
+</style>
+
+<div id="firzhhClock">
+  <div class="clock-label">✦ FIRZHH DIGITAL CLOCK ✦</div>
+  <div class="clock-greeting" id="clockGreeting">
+    Selamat Datang!
+  </div>
+  <div class="clock-time" id="clockTime">
+    00:00:00
+  </div>
+  <div class="clock-date" id="clockDate">
+    Memuat tanggal...
+  </div>
+  <div class="clock-label" style="margin-top:12px">
+    WIB · WESTERN INDONESIA TIME
+  </div>
+</div>
+
+<script>
+(function(){
+  function updateFirzhhClock(){
+    const now = new Date();
+
+    const hour = Number(
+      new Intl.DateTimeFormat("en-GB",{
+        timeZone:"Asia/Jakarta",
+        hour:"2-digit",
+        hourCycle:"h23"
+      }).format(now)
+    );
+
+    const greeting =
+      hour >= 4 && hour < 11 ? "☀️ Selamat Pagi" :
+      hour >= 11 && hour < 15 ? "🌤️ Selamat Siang" :
+      hour >= 15 && hour < 18 ? "🌇 Selamat Sore" :
+      "🌙 Selamat Malam";
+
+    document.getElementById("clockGreeting").textContent =
+      greeting + " · FIRZHH";
+
+    document.getElementById("clockTime").textContent =
+      new Intl.DateTimeFormat("en-GB",{
+        timeZone:"Asia/Jakarta",
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit",
+        hourCycle:"h23"
+      }).format(now);
+
+    document.getElementById("clockDate").textContent =
+      new Intl.DateTimeFormat("id-ID",{
+        timeZone:"Asia/Jakarta",
+        weekday:"long",
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+      }).format(now);
+  }
+
+  updateFirzhhClock();
+  setInterval(updateFirzhhClock,1000);
+})();
+    </script>
+  
 </body>
 </html>
