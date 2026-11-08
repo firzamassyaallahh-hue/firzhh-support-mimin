@@ -1789,5 +1789,40 @@ window.addEventListener("scroll", function() {
     progress + "%";
 });
 </script>
+  <style>
+.firzhh-ripple {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #00aaff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999999;
+  transform: translate(-50%, -50%);
+  animation: firzhhRipple .65s ease-out forwards;
+  box-shadow: 0 0 12px #008cff;
+}
+
+@keyframes firzhhRipple {
+  to {
+    width: 65px;
+    height: 65px;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("pointerdown", function(e) {
+  const ripple = document.createElement("span");
+  ripple.className = "firzhh-ripple";
+  ripple.style.left = e.clientX + "px";
+  ripple.style.top = e.clientY + "px";
+
+  document.body.appendChild(ripple);
+
+  setTimeout(() => ripple.remove(), 700);
+});
+</script>
 </body>
 </html>
