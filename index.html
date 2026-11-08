@@ -1763,5 +1763,31 @@ document.addEventListener("fullscreenchange", () => {
     document.fullscreenElement ? "✕ EXIT FULLSCREEN" : "⛶ FULLSCREEN";
 });
       </script>
+  <style>
+#firzhhProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(90deg,#075bff,#00d4ff,#8b5cf6);
+  box-shadow: 0 0 12px #0785ff;
+  z-index: 999999;
+  transition: width .08s linear;
+}
+</style>
+
+<div id="firzhhProgress"></div>
+
+<script>
+window.addEventListener("scroll", function() {
+  const scrollTop = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
+
+  document.getElementById("firzhhProgress").style.width =
+    progress + "%";
+});
+</script>
 </body>
 </html>
