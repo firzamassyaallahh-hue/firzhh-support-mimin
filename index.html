@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -10,17 +11,22 @@ body{margin:0;background:#050812;color:#eaf4ff;font-family:Arial,sans-serif}
 header{padding:25px 18px;text-align:center;background:linear-gradient(135deg,#07152c,#10102a);border-bottom:1px solid #087cff}
 .logo{font-size:35px}
 h1{color:#36a5ff;letter-spacing:2px;font-size:24px}
-header p{color:#9bb5d1;font-size:13px}
-main{max-width:750px;margin:30px auto;padding:15px}
-.panel{background:#0b1424;border:1px solid #173c66;border-radius:15px;padding:20px;margin-bottom:20px}
 h2{color:#48adff;font-size:18px}
-input{width:100%;padding:14px;margin-top:10px;border-radius:9px;border:1px solid #23568a;background:#050c18;color:white;font-size:15px}
-button,.btn{display:inline-block;padding:12px 17px;background:#087cff;color:white;border:0;border-radius:9px;text-decoration:none;font-weight:bold;cursor:pointer;margin-top:12px}
+header p,.muted{color:#9bb5d1;font-size:13px}
+main{max-width:750px;margin:30px auto;padding:15px}
+.panel,#adminBox{background:#0b1424;border:1px solid #173c66;border-radius:15px;padding:20px;margin-bottom:20px}
+input,textarea{width:100%;padding:13px;margin-top:10px;border-radius:9px;border:1px solid #23568a;background:#050c18;color:white;font-size:15px}
+textarea{min-height:85px;resize:vertical}
+button,.btn{display:inline-block;padding:12px 16px;background:#087cff;color:white;border:0;border-radius:9px;text-decoration:none;font-weight:bold;cursor:pointer;margin-top:12px}
+button:hover,.btn:hover{background:#0865cf}
 .script{padding:15px;background:#101e33;border:1px solid #21476e;border-radius:12px;margin-top:12px}
 .script h3{color:#64baff;margin:0 0 8px}
-.muted{color:#9aabc1;font-size:13px}
-.empty{text-align:center;padding:30px;color:#9aabc1}
+.empty{text-align:center;padding:25px;color:#9aabc1}
+.hidden{display:none!important}
+.adminCard{background:#101e33;padding:13px;border-radius:10px;margin-top:10px;border:1px solid #21476e}
 footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
+.danger{background:#b83245}
+.green{background:#087c65}
 </style>
 </head>
 <body>
@@ -32,10 +38,13 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 </header>
 
 <main>
+
 <section class="panel">
 <h2>🔎 Cari Script</h2>
 <p class="muted">Temukan script berdasarkan nama script atau game.</p>
-<input id="search" type="search" placeholder="Cari nama script atau game..." oninput="searchScripts()">
+<input id="search" type="search"
+placeholder="Cari nama script atau game..."
+oninput="searchScripts()">
 </section>
 
 <section class="panel">
@@ -45,9 +54,81 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 
 <section class="panel">
 <h2>👑 Support & Informasi</h2>
-<p class="muted">Website berbagi informasi script oleh Official Firzhh Group. Penambahan dan pengelolaan script hanya untuk admin resmi.</p>
-<a class="btn" href="https://whatsapp.com/channel/0029Vb8XVkm0G0XmcyQVSI1O" target="_blank">📢 WhatsApp Channel</a>
+<p class="muted">Website berbagi informasi script oleh Official Firzhh Group.</p>
+<a class="btn"
+href="https://whatsapp.com/channel/0029Vb8XVkm0G0XmcyQVSI1O"
+target="_blank" rel="noopener noreferrer">
+📢 WhatsApp Channel
+</a>
 </section>
+
+<section class="panel">
+<h2>💬 Saran / Kritik</h2>
+<p class="muted">Berikan masukan untuk FIRZHH SUPPORT MIMIN.</p>
+<input id="suggestionName" placeholder="Nama (opsional)">
+<textarea id="suggestionMessage" placeholder="Tulis saran atau kritik..."></textarea>
+<button onclick="sendSuggestion()">KIRIM SARAN</button>
+</section>
+
+<section id="adminBox">
+<h2>🔐 FIRZHH ADMIN PANEL</h2>
+
+<div id="adminLogin">
+<input id="adminEmail" type="email" placeholder="Email Admin">
+<input id="adminPassword" type="password" placeholder="Password Admin">
+<button onclick="adminLogin()">LOGIN ADMIN</button>
+</div>
+
+<div id="passwordSetup" class="hidden">
+<h3>🔑 AKTIVASI AKUN</h3>
+<p class="muted">Buat password untuk akun admin kamu.</p>
+<input id="firstPassword" type="password" placeholder="Password baru">
+<input id="confirmPassword" type="password" placeholder="Ulangi password">
+<button onclick="setFirstPassword()">SIMPAN PASSWORD</button>
+</div>
+
+<div id="adminTools" class="hidden">
+<h3 id="welcomeAdmin">Selamat datang!</h3>
+<p id="roleLabel" class="muted"></p>
+
+<div class="adminCard">
+<h3>➕ Tambah Script</h3>
+<input id="newName" placeholder="Nama Script">
+<input id="newGame" placeholder="Nama Game">
+<textarea id="newDesc" placeholder="Deskripsi"></textarea>
+<textarea id="newScript" placeholder="Isi Script"></textarea>
+<input id="newKey" placeholder="Link Key (kosongkan jika Keyless)">
+<button onclick="addScript()">TAMBAH SCRIPT</button>
+</div>
+
+<div id="ownerTools" class="hidden">
+
+<div class="adminCard">
+<h3>👑 MENU OWNER</h3>
+<p class="muted">Pengelolaan khusus pemilik website.</p>
+<h3>🛡️ Kelola Admin</h3>
+<input id="adminEmailNew" type="email" placeholder="Email admin yang sudah diundang">
+<button onclick="addAdmin()">TAMBAHKAN ADMIN</button>
+<div id="adminList">Memuat admin...</div>
+</div>
+
+<div class="adminCard">
+<h3>💬 Saran & Kritik Masuk</h3>
+<button onclick="loadOwnSuggestions()">LIHAT SARAN</button>
+<div id="ownSuggestions"></div>
+</div>
+
+<div class="adminCard">
+<h3>📂 Kelola Script</h3>
+<div id="adminListScripts">Memuat script...</div>
+</div>
+
+</div>
+
+<button class="danger" onclick="adminLogout()">LOGOUT</button>
+</div>
+</section>
+
 </main>
 
 <footer>
@@ -59,249 +140,282 @@ BY: OFFICIAL FIRZHH GROUP
 <script>
 const SUPABASE_URL = "https://ipsjcuoaelewjdefsosa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_blRXnxFY-_er0aFaQfjvkg_OkP84RU-";
+const OWNER_EMAIL = "firzanacckall@gmail.com";
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 let scripts = [];
+let currentRole = null;
+
+const $ = id => document.getElementById(id);
 
 async function loadScripts(){
- const results = document.getElementById("results");
+ const results = $("results");
  results.textContent = "Memuat daftar script...";
 
- const {data,error} = await db
-  .from("scripts")
-  .select("*");
+ const {data,error} = await db.from("scripts").select("*");
 
  if(error){
-  console.error(error);
-  results.textContent = "Gagal memuat data: " + error.message;
+  results.textContent = "Gagal memuat: "+error.message;
   return;
  }
 
- scripts = (data || []).map(item => ({
-  name: item.Name,
-  game: item.Game,
-  description: item.Description,
-  script: item.Scripts,
-  key_link: item.Key_link
+ scripts = (data || []).map(item=>({
+  id:item.id,
+  name:item.Name,
+  game:item.Game,
+  description:item.Description,
+  script:item.Scripts,
+  key_link:item.Key_link
  }));
 
  searchScripts();
 }
 
 function searchScripts(){
- const keyword = document.getElementById("search").value.toLowerCase();
- const results = document.getElementById("results");
+ const keyword = $("search").value.toLowerCase();
+ const results = $("results");
 
- const found = scripts.filter(item =>
-  (item.name || "").toLowerCase().includes(keyword) ||
-  (item.game || "").toLowerCase().includes(keyword)
+ const found = scripts.filter(item=>
+  (item.name||"").toLowerCase().includes(keyword) ||
+  (item.game||"").toLowerCase().includes(keyword)
  );
 
  results.replaceChildren();
 
  if(!found.length){
-  results.className = "empty";
-  results.textContent = "👽 Belum ada script yang ditemukan.";
+  results.className="empty";
+  results.textContent="👽 Belum ada script yang ditemukan.";
   return;
  }
 
- results.className = "";
+ results.className="";
 
- found.forEach(item => {
-  const card = document.createElement("div");
-  card.className = "script";
+ found.forEach(item=>{
+  const card=document.createElement("div");
+  card.className="script";
 
-  const title = document.createElement("h3");
-  title.textContent = item.name || "Tanpa nama";
+  const title=document.createElement("h3");
+  title.textContent=item.name||"Tanpa nama";
 
-  const game = document.createElement("p");
-  game.className = "muted";
-  game.textContent = "🎮 " + (item.game || "-");
+  const game=document.createElement("p");
+  game.className="muted";
+  game.textContent="🎮 "+(item.game||"-");
 
-  const desc = document.createElement("p");
-  desc.textContent = item.description || "";
+  const desc=document.createElement("p");
+  desc.textContent=item.description||"";
 
-  card.append(title,game,desc);
+  const key=document.createElement("p");
+  key.className="muted";
+  key.textContent=item.key_link?"🔑 Menggunakan Key":"🔓 KEYLESS";
 
-const copyBtn = document.createElement("button");
-copyBtn.className = "btn";
-copyBtn.textContent = "📋 SALIN SCRIPT";
+  const copy=document.createElement("button");
+  copy.textContent="📋 SALIN SCRIPT";
 
-copyBtn.onclick = async () => {
-  try {
-    await navigator.clipboard.writeText(item.game || "");
-    copyBtn.textContent = "✅ BERHASIL DISALIN";
-  } catch(error) {
-    alert("Gagal menyalin!");
-  }
-};
+  copy.onclick=async()=>{
+   try{
+    await navigator.clipboard.writeText(item.script||"");
+    copy.textContent="✅ BERHASIL DISALIN";
+   }catch(e){
+    alert("Gagal menyalin script.");
+   }
+  };
 
-card.append(copyBtn);
+  card.append(title,game,desc,key,copy);
 
   if(item.key_link){
-   const link = document.createElement("a");
-   link.className = "btn";
-   link.textContent = "Buka Link";
-   link.href = item.key_link;
-   link.target = "_blank";
-   link.rel = "noopener noreferrer";
+   const link=document.createElement("a");
+   link.className="btn";
+   link.textContent="BUKA LINK KEY";
+   link.href=item.key_link;
+   link.target="_blank";
+   link.rel="noopener noreferrer";
    card.append(link);
   }
 
   results.append(card);
  });
 }
-// ===== PANEL ADMIN FIRZHH =====
 
-document.body.insertAdjacentHTML("beforeend", `
-<style>
-#adminBox{
- background:#0b1425;color:white;padding:20px;
- margin:25px auto;border:1px solid #168cff;
- border-radius:15px;max-width:600px;
-}
-#adminBox input,#adminBox textarea{
- width:100%;padding:12px;margin:6px 0;
- border-radius:8px;border:1px solid #168cff;
- background:#07101e;color:white;box-sizing:border-box;
-}
-#adminBox button{
- padding:10px 15px;margin:5px;
- border:0;border-radius:8px;
- background:#168cff;color:white;
-}
-</style>
-
-<div id="adminBox">
- <h2>🔐 FIRZHH ADMIN PANEL</h2>
-
- <div id="adminLogin">
-  <input id="adminEmail" placeholder="Email Admin">
-  <input id="adminPassword" type="password" placeholder="Password Admin">
-  <button onclick="adminLogin()">LOGIN ADMIN</button>
- </div>
-
- <div id="adminTools" style="display:none">
-  <h3>Tambah Script</h3>
-  <input id="newName" placeholder="Nama Script">
-  <input id="newGame" placeholder="Nama Game">
-  <textarea id="newDesc" placeholder="Deskripsi"></textarea>
-  <textarea id="newScript" placeholder="Isi Script"></textarea>
-  <input id="newKey" placeholder="Link Key (opsional)">
-  <button onclick="addScript()">TAMBAH SCRIPT</button>
-  <button onclick="adminLogout()">LOGOUT</button>
-  <div id="adminList"></div>
- </div>
-</div>
-`);
+// LOGIN ADMIN
 
 async function adminLogin(){
- const email = document.getElementById("adminEmail").value;
- const password = document.getElementById("adminPassword").value;
+ const email=$("adminEmail").value.trim();
+ const password=$("adminPassword").value;
 
- const {error} = await db.auth.signInWithPassword({
-  email,password
- });
-
- if(error){
-  alert("Login gagal: " + error.message);
+ if(!email||!password){
+  alert("Email dan password wajib diisi!");
   return;
  }
 
- showAdmin();
+ const {error}=await db.auth.signInWithPassword({email,password});
+
+ if(error){
+  alert("Login gagal: "+error.message);
+  return;
+ }
+
+ await showAdmin();
 }
+
+// AKTIVASI PASSWORD UNDANGAN
+
+async function setFirstPassword(){
+ const password=$("firstPassword").value;
+ const confirm=$("confirmPassword").value;
+
+ if(password.length<8){
+  alert("Password minimal 8 karakter.");
+  return;
+ }
+
+ if(password!==confirm){
+  alert("Password tidak sama!");
+  return;
+ }
+
+ const {data,error}=await db.auth.updateUser({password});
+
+ if(error){
+  alert("Gagal menyimpan password: "+error.message);
+  return;
+ }
+
+ history.replaceState(null,"",location.pathname);
+ alert("Password berhasil dibuat!");
+ await showAdmin();
+}
+
+// CEK ROLE
 
 async function showAdmin(){
- document.getElementById("adminLogin").style.display="none";
- document.getElementById("adminTools").style.display="block";
- loadAdminScripts();
-}
+ const {data,error}=await db.auth.getUser();
 
-async function adminLogout(){
- await db.auth.signOut();
- document.getElementById("adminLogin").style.display="block";
- document.getElementById("adminTools").style.display="none";
-}
-
-async function addScript(){
- const record = {
-  Name:document.getElementById("newName").value,
-  Game:document.getElementById("newGame").value,
-  Description:document.getElementById("newDesc").value,
-  Scripts:document.getElementById("newScript").value,
-  Key_link:document.getElementById("newKey").value || null
- };
-
- if(!record.Name || !record.Game){
-  alert("Nama script dan game wajib diisi!");
+ if(error||!data.user){
+  alert("Sesi login tidak ditemukan.");
   return;
  }
 
- const {error} = await db.from("scripts").insert(record);
+ const email=(data.user.email||"").toLowerCase();
+
+ if(email===OWNER_EMAIL){
+  currentRole="owner";
+ }else{
+  const {data:isAdmin,error:roleError}=await db.rpc("is_firzhh_admin");
+
+  if(roleError||!isAdmin){
+   alert("Akun ini belum terdaftar sebagai admin resmi.");
+   await db.auth.signOut();
+   return;
+  }
+
+  currentRole="admin";
+ }
+
+ $("adminLogin").classList.add("hidden");
+ $("passwordSetup").classList.add("hidden");
+ $("adminTools").classList.remove("hidden");
+
+ $("welcomeAdmin").textContent="Halo, "+email;
+ $("roleLabel").textContent=
+  currentRole==="owner"?"👑 OWNER • FULL ACCESS":"🛡️ ADMIN • TAMBAH SCRIPT";
+
+ $("ownerTools").classList.toggle("hidden",currentRole!=="owner");
+
+ if(currentRole==="owner"){
+  loadAdminScripts();
+  loadAdminUsers();
+ }
+}
+
+// TAMBAH SCRIPT
+
+async function addScript(){
+ const record={
+  Name:$("newName").value.trim(),
+  Game:$("newGame").value.trim(),
+  Description:$("newDesc").value.trim(),
+  Scripts:$("newScript").value.trim(),
+  Key_link:$("newKey").value.trim()||null
+ };
+
+ if(!record.Name||!record.Game||!record.Scripts){
+  alert("Nama, game, dan isi script wajib diisi!");
+  return;
+ }
+
+ const {error}=await db.from("scripts").insert(record);
 
  if(error){
-  alert("Gagal: " + error.message);
+  alert("Gagal menambahkan: "+error.message);
   return;
  }
 
  alert("Script berhasil ditambahkan!");
- loadScripts();
- loadAdminScripts();
+
+ ["newName","newGame","newDesc","newScript","newKey"]
+ .forEach(id=>$(id).value="");
+
+ await loadScripts();
+
+ if(currentRole==="owner") await loadAdminScripts();
 }
 
+// KELOLA SCRIPT OWNER
+
 async function loadAdminScripts(){
- const {data,error} = await db.from("scripts").select("*");
+ const box=$("adminListScripts");
+ box.textContent="Memuat script...";
+
+ const {data,error}=await db.from("scripts").select("*");
 
  if(error){
-  alert("Gagal mengambil data: " + error.message);
+  box.textContent=error.message;
   return;
  }
 
- const list=document.getElementById("adminList");
- list.innerHTML="<h3>Daftar Script</h3>";
+ box.replaceChildren();
 
- (data || []).forEach(item=>{
-  const div=document.createElement("div");
-  div.style.padding="10px";
-  div.style.borderTop="1px solid #168cff";
-  div.textContent=item.Name + " - " + item.Game;
+ (data||[]).forEach(item=>{
+  const card=document.createElement("div");
+  card.className="adminCard";
+
+  const title=document.createElement("b");
+  title.textContent=item.Name+" - "+item.Game;
 
   const edit=document.createElement("button");
   edit.textContent="EDIT";
   edit.onclick=()=>editScript(item);
 
   const del=document.createElement("button");
+  del.className="danger";
   del.textContent="HAPUS";
   del.onclick=()=>deleteScript(item.id);
 
-  div.append(edit,del);
-  list.append(div);
+  card.append(title,document.createElement("br"),edit,del);
+  box.append(card);
  });
 }
 
 async function editScript(item){
- const name=prompt("Nama Script:",item.Name);
+ const name=prompt("Nama Script:",item.Name||"");
  if(name===null)return;
 
- const game=prompt("Nama Game:",item.Game);
+ const game=prompt("Nama Game:",item.Game||"");
  if(game===null)return;
 
- const description=prompt("Deskripsi:",item.Description || "");
+ const description=prompt("Deskripsi:",item.Description||"");
  if(description===null)return;
 
- const script=prompt("Isi Script:",item.Scripts || "");
+ const script=prompt("Isi Script:",item.Scripts||"");
  if(script===null)return;
 
- const key=prompt("Link Key:",item.Key_link || "");
+ const key=prompt("Link Key (kosongkan jika Keyless):",item.Key_link||"");
  if(key===null)return;
 
  const {error}=await db.from("scripts").update({
-  Name:name,
-  Game:game,
-  Description:description,
-  Scripts:script,
-  Key_link:key || null
+  Name:name,Game:game,Description:description,
+  Scripts:script,Key_link:key||null
  }).eq("id",item.id);
 
  if(error){
@@ -310,8 +424,8 @@ async function editScript(item){
  }
 
  alert("Script berhasil diedit!");
- loadScripts();
- loadAdminScripts();
+ await loadScripts();
+ await loadAdminScripts();
 }
 
 async function deleteScript(id){
@@ -325,109 +439,184 @@ async function deleteScript(id){
  }
 
  alert("Script berhasil dihapus!");
- loadScripts();
- loadAdminScripts();
+ await loadScripts();
+ await loadAdminScripts();
 }
 
-db.auth.getSession().then(({data})=>{
- if(data.session){
-  showAdmin();
+// KELOLA ADMIN OWNER
+
+async function loadAdminUsers(){
+ const box=$("adminList");
+ box.textContent="Memuat admin...";
+
+ const {data,error}=await db.rpc("firzhh_list_admins");
+
+ if(error){
+  box.textContent="Gagal memuat admin: "+error.message;
+  return;
  }
-});
-loadScripts();
- // ===== FIRZHH SARAN & KRITIK =====
 
-document.querySelector('main').insertAdjacentHTML('beforeend', `
-<section class="panel" id="suggestionPanel">
-<h2>💬 Saran / Kritik</h2>
-<p class="muted">Berikan masukan untuk FIRZHH SUPPORT MIMIN.</p>
-<input id="suggestionName" placeholder="Nama (opsional)">
-<textarea id="suggestionMessage" placeholder="Tulis saran atau kritik..."></textarea>
-<button onclick="sendSuggestion()">KIRIM SARAN</button>
-</section>
-`);
+ box.replaceChildren();
 
-document.getElementById('adminTools').insertAdjacentHTML('afterbegin', `
-<div style="text-align:right">
-<button onclick="toggleOwnMenu()">👑 MENU OWN</button>
-</div>
-<div id="ownMenu" style="display:none;background:#07101e;padding:15px;border-radius:12px;margin:10px 0">
-<h3>💬 Saran & Kritik Masuk</h3>
-<div id="ownSuggestions">Memuat pesan...</div>
-</div>
-`);
+ (data||[]).forEach(item=>{
+  const card=document.createElement("div");
+  card.className="adminCard";
+
+  const email=document.createElement("p");
+  email.textContent="🛡️ "+item.email;
+
+  const remove=document.createElement("button");
+  remove.className="danger";
+  remove.textContent="CABUT AKSES";
+
+  remove.onclick=async()=>{
+   if(!confirm("Cabut akses "+item.email+"?"))return;
+
+   const {error}=await db.rpc("firzhh_remove_admin",{
+    p_email:item.email
+   });
+
+   if(error){
+    alert("Gagal: "+error.message);
+    return;
+   }
+
+   alert("Akses admin berhasil dicabut.");
+   loadAdminUsers();
+  };
+
+  card.append(email,remove);
+  box.append(card);
+ });
+}
+
+async function addAdmin(){
+ const email=$("adminEmailNew").value.trim().toLowerCase();
+
+ if(!email){
+  alert("Masukkan email admin!");
+  return;
+ }
+
+ if(email===OWNER_EMAIL){
+  alert("Email owner tidak bisa ditambahkan sebagai admin.");
+  return;
+ }
+
+ const {error}=await db.rpc("firzhh_add_admin",{
+  p_email:email
+ });
+
+ if(error){
+  alert("Gagal: "+error.message);
+  return;
+ }
+
+ alert("Admin berhasil ditambahkan!");
+ $("adminEmailNew").value="";
+ loadAdminUsers();
+}
+
+// SARAN & KRITIK
 
 async function sendSuggestion(){
-const name = document.getElementById('suggestionName').value.trim();
-const message = document.getElementById('suggestionMessage').value.trim();
+ const name=$("suggestionName").value.trim();
+ const message=$("suggestionMessage").value.trim();
 
-if(!message){
-alert('Pesan belum diisi!');
-return;
-}
+ if(!message){
+  alert("Pesan belum diisi!");
+  return;
+ }
 
-const {error} = await db.from('suggestions').insert({
-name: name || 'Anonim',
-message: message
-});
+ const {error}=await db.from("suggestions").insert({
+  name:name||"Anonim",
+  message:message
+ });
 
-if(error){
-alert('Gagal mengirim: ' + error.message);
-return;
-}
+ if(error){
+  alert("Gagal mengirim: "+error.message);
+  return;
+ }
 
-alert('Saran berhasil dikirim! Terima kasih.');
-document.getElementById('suggestionName').value = '';
-document.getElementById('suggestionMessage').value = '';
-}
-
-function toggleOwnMenu(){
-const menu = document.getElementById('ownMenu');
-menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-
-if(menu.style.display === 'block'){
-loadOwnSuggestions();
-}
+ alert("Saran berhasil dikirim. Terima kasih!");
+ $("suggestionName").value="";
+ $("suggestionMessage").value="";
 }
 
 async function loadOwnSuggestions(){
-const container = document.getElementById('ownSuggestions');
-container.textContent = 'Memuat pesan...';
+ if(currentRole!=="owner")return;
 
-const {data,error} = await db
-.from('suggestions')
-.select('*')
-.order('created_at',{ascending:false});
+ const box=$("ownSuggestions");
+ box.textContent="Memuat pesan...";
 
-if(error){
-container.textContent = 'Gagal memuat pesan: ' + error.message;
-return;
+ const {data,error}=await db.from("suggestions")
+ .select("*").order("created_at",{ascending:false});
+
+ if(error){
+  box.textContent="Gagal: "+error.message;
+  return;
+ }
+
+ box.replaceChildren();
+
+ if(!data||!data.length){
+  box.textContent="Belum ada saran atau kritik.";
+  return;
+ }
+
+ data.forEach(item=>{
+  const card=document.createElement("div");
+  card.className="adminCard";
+
+  const author=document.createElement("b");
+  author.textContent=item.name||"Anonim";
+
+  const message=document.createElement("p");
+  message.textContent=item.message||"";
+
+  const date=document.createElement("small");
+  date.textContent=item.created_at?
+   new Date(item.created_at).toLocaleString("id-ID"):"";
+
+  card.append(author,message,date);
+  box.append(card);
+ });
 }
 
-container.innerHTML = '';
+// LOGOUT
 
-if(!data || data.length === 0){
-container.textContent = 'Belum ada saran atau kritik.';
-return;
+async function adminLogout(){
+ await db.auth.signOut();
+ currentRole=null;
+
+ $("adminTools").classList.add("hidden");
+ $("adminLogin").classList.remove("hidden");
+ $("adminPassword").value="";
+
+ alert("Berhasil logout.");
 }
 
-data.forEach(item => {
-const card = document.createElement('div');
-card.style.cssText = 'background:#101d30;padding:12px;margin:10px 0;border-radius:10px;border:1px solid #168cff';
+// PEMERIKSAAN SESI DAN UNDANGAN
 
-const author = document.createElement('b');
-author.textContent = item.name || 'Anonim';
+async function initialize(){
+ await loadScripts();
 
-const message = document.createElement('p');
-message.textContent = item.message;
+ const hash=new URLSearchParams(location.hash.slice(1));
+ const inviteFlow=["invite","recovery"].includes(hash.get("type"));
 
-const date = document.createElement('small');
-date.textContent = new Date(item.created_at).toLocaleString('id-ID');
+ const {data}=await db.auth.getSession();
 
-card.append(author,message,date);
-container.appendChild(card);
-});
+ if(data.session){
+  if(inviteFlow){
+   $("adminLogin").classList.add("hidden");
+   $("passwordSetup").classList.remove("hidden");
+  }else{
+   await showAdmin();
+  }
+ }
 }
+
+initialize();
 </script>
 </body>
 </html>
