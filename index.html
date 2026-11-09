@@ -73,12 +73,72 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 
 .chat-header h2{
  margin:0;
+/* GLOBAL CHAT - FIRZHH */
+.chat-launcher{
+ width:100%;
+ margin:0 0 15px;
+ background:linear-gradient(135deg,#087cff,#1646a0);
+ font-size:15px;
+ letter-spacing:1px;
+ border-radius:999px;
+}
+
+.chat-overlay{
+ position:fixed;
+ inset:0;
+ z-index:9999;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:12px;
+ background:rgba(0,5,15,.65);
+ backdrop-filter:blur(8px);
+ -webkit-backdrop-filter:blur(8px);
+}
+
+.chat-window{
+ width:100%;
+ max-width:560px;
+ height:min(720px,88vh);
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ background:#050912;
+ border:1px solid #1765a8;
+ border-radius:24px;
+ box-shadow:0 20px 70px rgba(0,0,0,.65);
+ transition:width .25s,height .25s,border-radius .25s;
+}
+
+.chat-header{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ padding:14px;
+ background:#0b1930;
+ border-bottom:1px solid #17436d;
+}
+
+.chat-header h2{
+ margin:0;
+ font-size:16px;
 }
 
 .chat-close{
  margin:0;
  padding:8px 12px;
  background:#26364d;
+ border-radius:999px;
+}
+
+.chat-resize{
+ display:none;
+ margin-left:auto;
+ padding:8px 12px;
+ background:#075eae;
+ border-radius:999px;
+ font-size:12px;
 }
 
 .chat-content{
@@ -96,7 +156,7 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
  overflow-y:auto;
  background:#080f1c;
  border:1px solid #1c3553;
- border-radius:12px;
+ border-radius:18px;
  padding:12px;
 }
 
@@ -104,18 +164,71 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
  display:flex;
  gap:8px;
  align-items:center;
+ margin-top:10px;
 }
 
 .chat-input-row input{
  flex:1;
  min-width:0;
+ border-radius:999px;
 }
 
 .chat-input-row button{
  flex-shrink:0;
+ border-radius:999px;
 }
 
-@media(max-width:480px){
+.chat-window #chatNameSetup input{
+ border-radius:999px;
+}
+
+.chat-window #chatNameSetup button{
+ border-radius:999px;
+}
+
+/* DESKTOP */
+@media(min-width:768px){
+ .chat-resize{
+  display:block;
+ }
+
+ .chat-window.chat-expanded{
+  width:96vw;
+  max-width:1200px;
+  height:90vh;
+  border-radius:18px;
+ }
+
+ .chat-window.chat-expanded .chat-content{
+  padding:18px;
+ }
+}
+
+/* HP */
+@media(max-width:767px){
+ .chat-window{
+  width:100%;
+  height:84vh;
+  max-width:none;
+  border-radius:24px;
+ }
+
+ .chat-header{
+  padding:12px;
+ }
+
+ .chat-header h2{
+  font-size:14px;
+ }
+
+ .chat-content{
+  padding:10px;
+ }
+
+ .chat-input-row button{
+  padding:10px 13px;
+ }
+  }
  .chat-window{
   height:85vh;
  }
@@ -515,21 +628,17 @@ target="_blank" rel="noopener noreferrer">
   <div class="chat-window">
 
     <div class="chat-header">
-      <h2>🌐 FIRZHH GLOBAL CHAT</h2>
-      <button class="chat-close" onclick="closeGlobalChat()">✕</button>
+  <h2>🌐 FIRZHH GLOBAL CHAT</h2>
+
+  <button id="chatResizeBtn"
+  class="chat-resize"
+  onclick="toggleGlobalChatSize()">
+    ⛶ SESUAIKAN LAYAR
+  </button>
+
+  <button class="chat-close"
+  onclick="closeGlobalChat()">✕</button>
     </div>
-
-    <div class="chat-content">
-
-      <div id="chatNameSetup">
-        <h3>Selamat Datang! 👽</h3>
-        <p class="muted">
-          Masukkan nama untuk berkomunikasi bersama orang lain.
-        </p>
-        <input id="chatName" maxlength="24"
-        placeholder="Masukkan nama pengguna...">
-        <button onclick="joinGlobalChat()">MASUK CHAT</button>
-      </div>
 
       <div id="chatArea" class="hidden"
       style="flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;">
@@ -1118,6 +1227,18 @@ function closeGlobalChat(){
   $("chatOverlay").classList.add("hidden");
   document.body.style.overflow="";
 }   
+function toggleGlobalChatSize(){
+ const win=document.querySelector(".chat-window");
+ const btn=$("chatResizeBtn");
+
+ if(!win||!btn)return;
+
+ win.classList.toggle("chat-expanded");
+
+ btn.textContent=win.classList.contains("chat-expanded")
+  ?"↙ KEMBALIKAN UKURAN"
+  :"⛶ SESUAIKAN LAYAR";
+}
 // LOGIN ADMIN
 
 async function adminLogin(){
