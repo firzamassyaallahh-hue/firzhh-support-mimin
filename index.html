@@ -2131,5 +2131,70 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 })();
 </script>
   
+<style>
+.firzhh-glitch {
+  position: relative;
+  display: inline-block;
+  color: #38aaff !important;
+  text-shadow: 0 0 8px #168cff;
+  animation: firzhhGlitch 3s infinite;
+}
+
+.firzhh-glitch::before,
+.firzhh-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.firzhh-glitch::before {
+  color: #00eaff;
+  animation: firzhhGlitchTop 2s infinite;
+}
+
+.firzhh-glitch::after {
+  color: #a855f7;
+  animation: firzhhGlitchBottom 2.5s infinite;
+}
+
+@keyframes firzhhGlitch {
+  0%, 90%, 100% { transform: translateX(0); }
+  92% { transform: translateX(-2px); }
+  94% { transform: translateX(2px); }
+  96% { transform: translateX(-1px); }
+}
+
+@keyframes firzhhGlitchTop {
+  0%, 90%, 100% { clip-path: inset(0 0 90% 0); transform: translateX(0); }
+  92% { clip-path: inset(10% 0 65% 0); transform: translateX(3px); }
+  95% { clip-path: inset(35% 0 45% 0); transform: translateX(-3px); }
+}
+
+@keyframes firzhhGlitchBottom {
+  0%, 90%, 100% { clip-path: inset(90% 0 0 0); transform: translateX(0); }
+  93% { clip-path: inset(65% 0 10% 0); transform: translateX(-3px); }
+  96% { clip-path: inset(45% 0 35% 0); transform: translateX(3px); }
+}
+</style>
+
+<script>
+(() => {
+  const selectors = [
+    "h1", "h2"
+  ];
+
+  document.querySelectorAll(selectors.join(",")).forEach(el => {
+    if (el.closest("#firzhhHUD")) return;
+    if (el.classList.contains("firzhh-glitch")) return;
+
+    el.classList.add("firzhh-glitch");
+    el.setAttribute("data-text", el.textContent.trim());
+  });
+})();
+</script>
+  
 </body>
 </html>
