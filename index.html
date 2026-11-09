@@ -1877,5 +1877,90 @@ document.addEventListener("pointerdown", function(e) {
 })();
 </script>
   
+<style>
+#firzhhThemeBox {
+  position: fixed;
+  right: 14px;
+  bottom: 85px;
+  z-index: 99999;
+  background: #071629;
+  border: 1px solid #269cff;
+  border-radius: 15px;
+  padding: 12px;
+  box-shadow: 0 0 18px #168cff55;
+  color: white;
+  font-family: Arial,sans-serif;
+}
+#firzhhThemeBox button {
+  border: 0;
+  border-radius: 9px;
+  padding: 9px;
+  margin: 3px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+#firzhhThemeToggle {
+  position: fixed;
+  right: 14px;
+  bottom: 20px;
+  z-index: 100000;
+  background: #087fff;
+  color: white;
+  border: 0;
+  border-radius: 50px;
+  padding: 12px 16px;
+  font-weight: bold;
+}
+</style>
+
+<button id="firzhhThemeToggle"
+onclick="firzhhToggleTheme()">🎨 Theme</button>
+
+<div id="firzhhThemeBox" style="display:none">
+  <b>🎨 FIRZHH THEMES</b>
+  <div style="margin-top:9px">
+    <button style="background:#087fff"
+    onclick="firzhhSetTheme('#087fff')">Blue</button>
+
+    <button style="background:#9333ea"
+    onclick="firzhhSetTheme('#9333ea')">Purple</button>
+
+    <button style="background:#16a34a"
+    onclick="firzhhSetTheme('#16a34a')">Green</button>
+
+    <button style="background:#222"
+    onclick="firzhhSetTheme('#222222')">Black</button>
+  </div>
+</div>
+
+<script>
+function firzhhToggleTheme() {
+  const box = document.getElementById('firzhhThemeBox');
+  box.style.display =
+    box.style.display === 'none' ? 'block' : 'none';
+}
+
+function firzhhSetTheme(color) {
+  document.documentElement.style.setProperty(
+    '--firzhh-theme', color
+  );
+
+  document.querySelectorAll(
+    'button, .btn, a.btn'
+  ).forEach(el => {
+    if (!el.closest('#firzhhThemeBox') &&
+        el.id !== 'firzhhThemeToggle') {
+      el.style.borderColor = color;
+    }
+  });
+
+  localStorage.setItem('firzhhTheme', color);
+}
+
+const savedTheme = localStorage.getItem('firzhhTheme');
+if (savedTheme) firzhhSetTheme(savedTheme);
+</script>
+  
 </body>
 </html>
