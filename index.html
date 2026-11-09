@@ -1822,5 +1822,60 @@ document.addEventListener("pointerdown", function(e) {
   setTimeout(() => ripple.remove(), 700);
 });
 </script>
+  
+<style>
+#firzhhVisitors {
+  margin: 20px auto;
+  max-width: 320px;
+  padding: 18px;
+  text-align: center;
+  border: 1px solid #168cff66;
+  border-radius: 16px;
+  background: linear-gradient(135deg,#071629,#06101e);
+  box-shadow: 0 0 18px #008cff22;
+  color: white;
+}
+#firzhhVisitors .visitor-number {
+  font-size: 34px;
+  font-weight: 800;
+  color: #35aaff;
+  text-shadow: 0 0 12px #168cff;
+  margin: 8px 0;
+}
+#firzhhVisitors .visitor-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #9acfff;
+}
+</style>
+
+<div id="firzhhVisitors">
+  <div class="visitor-label">✦ DEMO VISITORS ✦</div>
+  <div class="visitor-number" id="firzhhVisitorNumber">---</div>
+  <div style="font-size:11px;color:#829bb5">
+    Simulated visitor count
+  </div>
+</div>
+
+<script>
+(() => {
+  const now = new Date();
+  const dateKey = 
+    now.getFullYear() + "-" +
+    (now.getMonth()+1) + "-" +
+    now.getDate();
+
+  let seed = 0;
+  for (let i = 0; i < dateKey.length; i++) {
+    seed = (seed * 31 + dateKey.charCodeAt(i)) >>> 0;
+  }
+
+  const number = 101 + (seed % 899);
+
+  document.getElementById("firzhhVisitorNumber")
+    .textContent = number.toLocaleString("id-ID");
+})();
+</script>
+  
 </body>
 </html>
