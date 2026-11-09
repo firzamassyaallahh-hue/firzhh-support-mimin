@@ -683,6 +683,7 @@ async function loadScripts(){
 }
   
 
+
 function searchScripts(){
  const keyword = $("search").value.toLowerCase();
  const results = $("results");
@@ -708,6 +709,15 @@ function searchScripts(){
 
   const title=document.createElement("h3");
   title.textContent=item.name||"Tanpa nama";
+
+  if(item.created_at &&
+     Date.now()-new Date(item.created_at).getTime() < 86400000 &&
+     Date.now()-new Date(item.created_at).getTime() >= 0){
+   const badge=document.createElement("span");
+   badge.textContent=" ✨ NEW";
+   badge.style.cssText="display:inline-block;margin-left:8px;padding:4px 8px;background:#087c45;color:white;border-radius:6px;font-size:11px;";
+   title.append(badge);
+  }
 
   const game=document.createElement("p");
   game.className="muted";
@@ -746,8 +756,8 @@ function searchScripts(){
 
   results.append(card);
  });
-}
-
+  }
+  
 // =====================================
 // FIRZHH GLOBAL CHAT
 // =====================================
