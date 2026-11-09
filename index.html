@@ -2721,251 +2721,155 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 })();
 </script>
   
+
 <style>
-/* FIRZHH EXECUTOR CENTER */
+#firzhhExecutorNav {
+  display:block;
+  width:calc(100% - 28px);
+  max-width:650px;
+  margin:12px auto 18px;
+  padding:13px;
+  background:#07182c;
+  color:#70bdff;
+  border:1px solid #168cff;
+  border-radius:11px;
+  font-weight:bold;
+  font-size:13px;
+  cursor:pointer;
+}
+
 #firzhhExecutorPage {
   display:none;
   width:100%;
   min-height:75vh;
   padding:22px 14px 40px;
-  color:#fff;
+  color:white;
   box-sizing:border-box;
-  animation:firzhhExecIn .3s ease;
 }
 
-#firzhhExecutorPage.active { display:block; }
+#firzhhExecutorPage.active {display:block}
 
-@keyframes firzhhExecIn {
-  from {opacity:0;transform:translateY(8px)}
-  to {opacity:1;transform:translateY(0)}
-}
-
-.fex-container {
-  max-width:650px;
-  margin:auto;
-}
-
+.fex-container {max-width:650px;margin:auto}
 .fex-back {
-  background:#101e32;
-  border:1px solid #247bce;
-  color:#80c8ff;
-  padding:10px 15px;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-bottom:25px;
+  background:#101e32;color:#80c8ff;
+  border:1px solid #247bce;padding:10px 15px;
+  border-radius:10px;font-weight:bold;
+  cursor:pointer;margin-bottom:25px;
 }
-
-.fex-heading {
-  text-align:center;
-  margin:5px 0 25px;
-}
-
+.fex-heading{text-align:center;margin:5px 0 25px}
 .fex-heading h1 {
-  font-size:26px;
-  letter-spacing:2px;
-  margin:0;
-  color:#65baff;
+  font-size:26px;letter-spacing:2px;
+  margin:0;color:#65baff;
   text-shadow:0 0 15px #168cff77;
 }
-
-.fex-heading p {
-  font-size:11px;
-  color:#91a9c4;
-  letter-spacing:2px;
-}
-
+.fex-heading p {font-size:11px;color:#91a9c4;letter-spacing:2px}
 .fex-section {
-  color:#65baff;
-  font-size:12px;
-  letter-spacing:1.5px;
-  margin:25px 0 12px;
+  color:#65baff;font-size:12px;
+  letter-spacing:1.5px;margin:25px 0 12px;
   font-weight:bold;
 }
-
 .fex-card {
-  background:rgba(5,19,37,.88);
+  background:rgba(5,19,37,.9);
   border:1px solid rgba(39,137,230,.45);
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:12px;
-  box-shadow:0 4px 18px rgba(0,90,180,.08);
+  border-radius:14px;padding:16px;margin-bottom:12px;
 }
-
-.fex-card h3 {
-  font-size:15px;
-  margin:0 0 6px;
-  color:#fff;
-}
-
-.fex-card p {
-  color:#9bb1c9;
-  font-size:12px;
-  margin:0;
-}
-
+.fex-card h3 {font-size:15px;margin:0 0 6px;color:white}
+.fex-card p {color:#9bb1c9;font-size:12px;margin:0}
 .fex-open {
-  display:inline-block;
-  text-decoration:none;
-  background:#087cff;
-  color:white !important;
-  padding:9px 18px;
-  border-radius:8px;
-  font-size:11px;
-  font-weight:bold;
-  margin-top:14px;
-  transition:.2s;
+  display:inline-block;text-decoration:none;
+  background:#087cff;color:white;
+  padding:9px 18px;border-radius:8px;
+  font-size:11px;font-weight:bold;margin-top:14px;
 }
-
-.fex-open:active {
-  transform:scale(.96);
-}
-
-.fex-community {
-  background:rgba(7,26,47,.9);
-}
-
-.fex-footer {
-  text-align:center;
-  color:#718ba7;
-  font-size:10px;
-  margin-top:28px;
-}
-
-#firzhhExecutorNav {
-  display:block;
-  width:100%;
-  max-width:250px;
-  margin:12px auto;
-  padding:12px;
-  border:1px solid #168cff;
-  border-radius:10px;
-  color:#70bdff;
-  background:#07182c;
-  font-weight:bold;
-  cursor:pointer;
-  font-size:13px;
-}
+.fex-footer{text-align:center;color:#718ba7;font-size:10px;margin-top:28px}
 </style>
-
-<!-- EXECUTOR NAVIGATION -->
-<button id="firzhhExecutorNav" type="button">
-  ⚡ EXECUTOR CENTER
-</button>
-
-<!-- EXECUTOR PAGE -->
-<section id="firzhhExecutorPage">
-  <div class="fex-container">
-
-    <button class="fex-back" id="fexBack" type="button">
-      ← BACK TO HOME
-    </button>
-
-    <div class="fex-heading">
-      <h1>EXECUTOR CENTER</h1>
-      <p>FIRZHH WORLD SCRIPT</p>
-    </div>
-
-    <div class="fex-section">⚡ BYPASS KEY</div>
-
-    <div class="fex-card">
-      <h3>01. BACON BYPASS</h3>
-      <p>Open Bacon Bypass website</p>
-      <a class="fex-open"
-         href="https://baconbypass.xyz/"
-         target="_blank"
-         rel="noopener noreferrer">OPEN ↗</a>
-    </div>
-
-    <div class="fex-card">
-      <h3>02. IZEN BYPASS</h3>
-      <p>Open Izen Bypass website</p>
-      <a class="fex-open"
-         href="https://izen.lol/#google_vignette"
-         target="_blank"
-         rel="noopener noreferrer">OPEN ↗</a>
-    </div>
-
-    <div class="fex-section">🌐 FIRZHH COMMUNITY</div>
-
-    <div class="fex-card fex-community">
-      <h3>WORLD SCRIPT</h3>
-      <p>Join our official World Script channel</p>
-      <a class="fex-open"
-         href="https://whatsapp.com/channel/0029VbDEdCXKmCPWKRhYrL17"
-         target="_blank"
-         rel="noopener noreferrer">JOIN CHANNEL ↗</a>
-    </div>
-
-    <div class="fex-card fex-community">
-      <h3>DISCUSSION OF ALL MAPS</h3>
-      <p>Join our map discussion channel</p>
-      <a class="fex-open"
-         href="https://whatsapp.com/channel/0029Vb8XVkm0G0XmcyQVSI1O"
-         target="_blank"
-         rel="noopener noreferrer">JOIN CHANNEL ↗</a>
-    </div>
-
-    <div class="fex-footer">
-      FIRZHH WORLD SCRIPT · EXECUTOR CENTER
-    </div>
-
-  </div>
-</section>
 
 <script>
 (() => {
-  const nav = document.getElementById("firzhhExecutorNav");
-  const page = document.getElementById("firzhhExecutorPage");
-  const back = document.getElementById("fexBack");
+  const nav = document.createElement("button");
+  nav.id = "firzhhExecutorNav";
+  nav.type = "button";
+  nav.textContent = "⚡ EXECUTOR CENTER";
 
-  if (!nav || !page || !back) return;
+  const page = document.createElement("section");
+  page.id = "firzhhExecutorPage";
+
+  page.innerHTML = `
+    <div class="fex-container">
+      <button class="fex-back" id="fexBack">← BACK TO HOME</button>
+      <div class="fex-heading">
+        <h1>EXECUTOR CENTER</h1>
+        <p>FIRZHH WORLD SCRIPT</p>
+      </div>
+
+      <div class="fex-section">⚡ BYPASS KEY</div>
+
+      <div class="fex-card">
+        <h3>01. BACON BYPASS</h3>
+        <p>Open Bacon Bypass website</p>
+        <a class="fex-open" href="https://baconbypass.xyz/" target="_blank" rel="noopener noreferrer">OPEN ↗</a>
+      </div>
+
+      <div class="fex-card">
+        <h3>02. IZEN BYPASS</h3>
+        <p>Open Izen Bypass website</p>
+        <a class="fex-open" href="https://izen.lol/#google_vignette" target="_blank" rel="noopener noreferrer">OPEN ↗</a>
+      </div>
+
+      <div class="fex-section">🌐 FIRZHH COMMUNITY</div>
+
+      <div class="fex-card">
+        <h3>WORLD SCRIPT</h3>
+        <p>Join our official World Script channel</p>
+        <a class="fex-open" href="https://whatsapp.com/channel/0029VbDEdCXKmCPWKRhYrL17" target="_blank" rel="noopener noreferrer">JOIN CHANNEL ↗</a>
+      </div>
+
+      <div class="fex-card">
+        <h3>DISCUSSION OF ALL MAPS</h3>
+        <p>Join our map discussion channel</p>
+        <a class="fex-open" href="https://whatsapp.com/channel/0029Vb8XVkm0G0XmcyQVSI1O" target="_blank" rel="noopener noreferrer">JOIN CHANNEL ↗</a>
+      </div>
+
+      <div class="fex-footer">FIRZHH WORLD SCRIPT · EXECUTOR CENTER</div>
+    </div>
+  `;
+
+  const first = document.body.firstElementChild;
+  document.body.insertBefore(nav, first);
+  document.body.insertBefore(page, nav.nextSibling);
 
   const mainElements = Array.from(document.body.children)
-    .filter(el =>
-      el !== page &&
-      el !== nav &&
-      el.tagName !== "SCRIPT" &&
-      el.tagName !== "STYLE"
-    );
+    .filter(el => el !== nav && el !== page &&
+      el.tagName !== "SCRIPT" && el.tagName !== "STYLE");
 
-  let originalDisplays = new Map();
+  const oldDisplays = new Map(
+    mainElements.map(el => [el, el.style.display])
+  );
 
-  function showExecutor() {
-    mainElements.forEach(el => {
-      if (!originalDisplays.has(el)) {
-        originalDisplays.set(el, el.style.display);
-      }
-      el.style.display = "none";
-    });
-
+  function openPage() {
+    mainElements.forEach(el => el.style.display = "none");
     nav.style.display = "none";
     page.classList.add("active");
-    window.scrollTo(0, 0);
-    history.pushState({firzhhExecutor:true},"","#executor");
+    window.scrollTo(0,0);
+    history.pushState({executor:true},"","#executor");
   }
 
-  function showHome() {
-    mainElements.forEach(el => {
-      el.style.display = originalDisplays.get(el) || "";
-    });
-
+  function closePage() {
+    mainElements.forEach(el => el.style.display = oldDisplays.get(el));
     page.classList.remove("active");
-    nav.style.display = "";
-    if (location.hash === "#executor") {
+    nav.style.display = "block";
+    if(location.hash === "#executor") {
       history.replaceState(null,"",location.pathname + location.search);
     }
-    window.scrollTo(0, 0);
+    window.scrollTo(0,0);
   }
 
-  nav.addEventListener("click", showExecutor);
-  back.addEventListener("click", showHome);
+  nav.addEventListener("click",openPage);
+  page.querySelector("#fexBack").addEventListener("click",closePage);
 
-  window.addEventListener("popstate", () => {
-    if (page.classList.contains("active")) showHome();
+  window.addEventListener("popstate",() => {
+    if(page.classList.contains("active")) closePage();
   });
-
-  if (location.hash === "#executor") showExecutor();
 })();
 </script>
   
