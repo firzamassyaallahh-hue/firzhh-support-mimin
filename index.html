@@ -335,6 +335,7 @@ color:white;
 </div>
 
 <script>
+
 function findRandomScript(){
   const input = document.getElementById("randomGameInput")
     .value.trim().toLowerCase();
@@ -353,7 +354,7 @@ function findRandomScript(){
   });
 
   if(!filtered.length){
-    result.textContent = "Belum ketemu! Coba nama game lain.";
+    result.textContent = "Script tidak ditemukan. Coba nama lain!";
     return;
   }
 
@@ -370,8 +371,43 @@ function findRandomScript(){
   const desc = document.createElement("p");
   desc.textContent = chosen.description || "Tidak ada deskripsi.";
 
-  result.append(title, game, desc);
-}
+  const buttons = document.createElement("div");
+  buttons.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;";
+
+  const copy = document.createElement("button");
+  copy.textContent = "📋 SALIN SCRIPT";
+  copy.style.cssText = "flex:1;padding:12px;background:#1479e8;color:white;border:0;border-radius:9px;font-weight:bold;";
+
+  copy.onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(chosen.script || "");
+      copy.textContent = "✓ BERHASIL DISALIN!";
+    } catch(e) {
+      const area = document.createElement("textarea");
+      area.value = chosen.script || "";
+      document.body.appendChild(area);
+      area.select();
+      const success = document.execCommand("copy");
+      area.remove();
+      copy.textContent = success ? "✓ BERHASIL DISALIN!" : "GAGAL MENYALIN";
+    }
+  };
+
+  buttons.appendChild(copy);
+
+  if(chosen.key_link){
+    const key = document.createElement("a");
+    key.textContent = "🔑 OPEN KEY";
+    key.href = chosen.key_link;
+    key.target = "_blank";
+    key.rel = "noopener noreferrer";
+    key.style.cssText = "flex:1;text-align:center;padding:12px;background:#16834b;color:white;border-radius:9px;text-decoration:none;font-weight:bold;";
+    buttons.appendChild(key);
+  }
+
+  result.append(title, game, desc, buttons);
+  }
+  
 </script>
   
   <div class="total-script-box">
