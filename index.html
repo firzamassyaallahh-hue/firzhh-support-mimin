@@ -2049,5 +2049,87 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 })();
 </script>
   
+<style>
+#firzhhHUD {
+  position: fixed;
+  left: 12px;
+  bottom: 18px;
+  z-index: 99990;
+  width: 155px;
+  padding: 12px;
+  color: #d8efff;
+  background: rgba(3,17,36,.92);
+  border: 1px solid #168cff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #087fff55;
+  font-family: Arial,sans-serif;
+  pointer-events: none;
+}
+#firzhhHUD .hud-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #43baff;
+  font-weight: bold;
+}
+#firzhhHUD .hud-status {
+  font-size: 10px;
+  color: #40e9a0;
+  margin-top: 8px;
+}
+#firzhhHUD .hud-clock {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 9px;
+  text-shadow: 0 0 9px #168cff;
+}
+#firzhhHUD .hud-date {
+  font-size: 9px;
+  color: #8ebce5;
+  margin-top: 4px;
+}
+#firzhhHUD .hud-line {
+  height: 2px;
+  margin-top: 9px;
+  background: linear-gradient(90deg,#087fff,transparent);
+  animation: firzhhGlow 2s infinite alternate;
+}
+@keyframes firzhhGlow {
+  from {opacity:.4}
+  to {opacity:1}
+}
+</style>
+
+<div id="firzhhHUD">
+  <div class="hud-title">FIRZHH SYSTEM</div>
+  <div class="hud-status">● SYSTEM ONLINE</div>
+  <div class="hud-clock" id="firzhhHUDClock">00:00:00</div>
+  <div class="hud-date" id="firzhhHUDDate"></div>
+  <div class="hud-line"></div>
+</div>
+
+<script>
+(() => {
+  const clock = document.getElementById("firzhhHUDClock");
+  const date = document.getElementById("firzhhHUDDate");
+
+  function updateHUD() {
+    const now = new Date();
+
+    clock.textContent = now.toLocaleTimeString("id-ID", {
+      hour12: false
+    });
+
+    date.textContent = now.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    });
+  }
+
+  updateHUD();
+  setInterval(updateHUD, 1000);
+})();
+</script>
+  
 </body>
 </html>
