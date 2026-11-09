@@ -299,6 +299,54 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 <h1>FIRZHH SUPPORT MIMIN</h1>
 <p>ALIEN SCRIPT FINDER • OFFICIAL FIRZHH GROUP</p>
 </header>
+  <div class="total-script-box">
+  <div class="total-script-icon">📁</div>
+  <div>
+    <div class="total-script-title">TOTAL SCRIPT</div>
+    <div class="total-script-number" id="totalScripts">
+      Memuat...
+    </div>
+    <div class="total-script-desc">
+      SCRIPT TERSEDIA DI WEBSITE
+    </div>
+  </div>
+</div>
+
+<style>
+.total-script-box {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg,#080d19,#102b50);
+  border: 1px solid #1685ff;
+  border-radius: 16px;
+  box-shadow: 0 0 15px #087cff35;
+}
+
+.total-script-icon {
+  font-size: 35px;
+}
+
+.total-script-title {
+  color: #75baff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.total-script-number {
+  color: white;
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.total-script-desc {
+  color: #9bb5d5;
+  font-size: 10px;
+}
+  </style>
 <div id="firzhhClock">
   <div class="clock-label">✦ FIRZHH DIGITAL CLOCK ✦</div>
   <div class="clock-greeting" id="clockGreeting">Selamat Datang!</div>
@@ -493,6 +541,7 @@ let currentRole = null;
 
 const $ = id => document.getElementById(id);
 
+
 async function loadScripts(){
  const results = $("results");
  results.textContent = "Memuat daftar script...";
@@ -513,8 +562,14 @@ async function loadScripts(){
   key_link:item.Key_link
  }));
 
+ const totalElement = $("totalScripts");
+ if(totalElement){
+  totalElement.textContent = scripts.length + " SCRIPT";
+ }
+
  searchScripts();
 }
+  
 
 function searchScripts(){
  const keyword = $("search").value.toLowerCase();
