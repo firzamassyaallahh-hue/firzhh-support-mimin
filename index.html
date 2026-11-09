@@ -2551,6 +2551,175 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 </style>
 
 <div id="firzhhScanner"></div>
+ 
+<style>
+/* FIRZHH FAVORITE SYSTEM */
+#firzhhFavBar {
+  display:flex;
+  gap:8px;
+  margin:12px 0;
+  flex-wrap:wrap;
+}
+
+#firzhhFavToggle {
+  background:#071b35;
+  color:#59baff;
+  border:1px solid #168cff;
+  border-radius:10px;
+  padding:11px 18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+
+#firzhhFavToggle.active {
+  background:#087cff;
+  color:white;
+  box-shadow:0 0 12px #087cff88;
+}
+
+.firzhh-fav-btn {
+  background:#10243a;
+  color:#8ebfff;
+  border:1px solid #268bff;
+  border-radius:8px;
+  padding:7px 12px;
+  margin:8px 4px 4px 0;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.firzhh-fav-btn.selected {
+  background:#087cff;
+  color:white;
+}
+
+#firzhhFavCount {
+  color:#8ebfff;
+  font-size:12px;
+  margin-left:5px;
+}
+</style>
+
+<script>
+(() => {
+  const STORAGE = "firzhh_favorite_scripts";
+  let favoriteMode = false;
+  let favorites = JSON.parse(localStorage.getItem(STORAGE) || "[]");
+
+  const results = document.getElementById("results");
+  const search = document.getElementById("search");
+
+  if (!results || !search) return;
+
+  // Kolom favorit di atas pencarian
+  const bar = document.createElement("div");
+  bar.id = "firzhhFavBar";
+
+  const toggle = document.createElement("button");
+  toggle.id = "firzhhFavToggle";
+  toggle.innerHTML = '❤️ FAVORIT <span id="firzhhFavCount"></span>';
+
+  bar.appendChild(toggle);
+  search.parentNode.insertBefore(bar, search);
+
+  function save() {
+    localStorage.setItem(STORAGE, JSON.stringify(favorites));
+  }
+
+  function updateCount() {
+    document.getElementById("firzhhFavCount").textContent =
+      "(" + favorites.length + ")";
+  }
+
+  function getCards() {
+    return Array.from(results.children);
+  }
+
+  function prepareCards() {
+    getCards().forEach(card => {
+      if (card.dataset.firzhhPrepared) return;
+
+      const key = card.innerText.trim().replace(/\s+/g, " ").toLowerCase();
+      if (!key) return;
+
+      card.dataset.firzhhKey = key;
+      card.dataset.firzhhPrepared = "yes";
+
+      const btn = document.createElement("button");
+      btn.className = "firzhh-fav-btn";
+      btn.type = "button";
+
+      function updateButton() {
+        const active = favorites.includes(key);
+        btn.textContent = active ? "❤️ Tersimpan" : "♡ Tambah Favorit";
+        btn.classList.toggle("selected", active);
+      }
+
+      btn.onclick = () => {
+        if (favorites.includes(key)) {
+          favorites = favorites.filter(x => x !== key);
+        } else {
+          favorites.push(key);
+        }
+
+        save();
+        updateButton();
+        updateCount();
+        applyFilter();
+      };
+
+      card.appendChild(btn);
+      updateButton();
+    });
+  }
+
+  function applyFilter() {
+    prepareCards();
+
+    getCards().forEach(card => {
+      const isFavorite = favorites.includes(card.dataset.firzhhKey);
+      card.style.display =
+        favoriteMode && !isFavorite ? "none" : "";
+    });
+
+    toggle.classList.toggle("active", favoriteMode);
+    updateCount();
+  }
+
+  // Integrasi dengan pencarian lama
+  const originalSearch = window.searchScripts;
+
+  if (typeof originalSearch === "function") {
+    window.searchScripts = function() {
+      originalSearch.apply(this, arguments);
+      setTimeout(applyFilter, 0);
+    };
+  }
+
+  toggle.onclick = () => {
+    favoriteMode = !favoriteMode;
+
+    if (typeof window.searchScripts === "function") {
+      const oldSearch = search.value;
+
+      if (favoriteMode) search.value = "";
+      window.searchScripts();
+
+      search.value = oldSearch;
+    }
+
+    setTimeout(applyFilter, 50);
+  };
+
+  new MutationObserver(() => {
+    applyFilter();
+  }).observe(results, { childList: true });
+
+  prepareCards();
+  updateCount();
+})();
+</script>
   
 </body>
 </html>
