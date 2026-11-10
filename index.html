@@ -2873,5 +2873,89 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 })();
 </script>
   
+<!-- FIRZHH DAILY QUOTE -->
+<div id="firzhhQuote">
+  <div class="fq-label">✦ FIRZHH DAILY QUOTE</div>
+  <div id="fqText">"Jangan cuma jadi penonton, jadilah pencipta."</div>
+  <div class="fq-footer">— FIRZHH COMMUNITY</div>
+</div>
+
+<style>
+#firzhhQuote {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 12px;
+  text-align: center;
+  background: linear-gradient(90deg,
+    rgba(3,12,27,.96),
+    rgba(8,28,55,.96),
+    rgba(3,12,27,.96));
+  border-bottom: 1px solid #167bd8;
+  font-family: Arial, sans-serif;
+}
+
+#firzhhQuote .fq-label {
+  color: #42baff;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+#fqText {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  transition: opacity .4s ease;
+}
+
+#firzhhQuote .fq-footer {
+  color: #65a9dc;
+  font-size: 10px;
+  margin-top: 7px;
+  letter-spacing: 1px;
+}
+
+#fqText.fq-hide {
+  opacity: 0;
+}
+</style>
+
+<script>
+(function () {
+  const quotes = [
+    "Jangan cuma jadi penonton, jadilah pencipta.",
+    "Proses kecil hari ini, hasil besar nanti.",
+    "Buktikan lewat karya, bukan sekadar kata.",
+    "Jangan takut berbeda, takutlah berhenti berkembang.",
+    "Kesuksesan dimulai dari keberanian mencoba.",
+    "Tetap rendah hati meskipun sudah berada di atas.",
+    "Tidak harus cepat, yang penting terus bergerak.",
+    "Fokus pada tujuan, bukan gangguan.",
+    "Jadilah alasan orang lain ikut berkembang.",
+    "Diam bukan berarti kalah, terkadang sedang menyusun strategi.",
+    "Konsisten lebih penting daripada sekadar semangat.",
+    "Bangun sesuatu yang membuatmu bangga."
+  ];
+
+  const text = document.getElementById("fqText");
+  if (!text) return;
+
+  let current = 0;
+
+  setInterval(() => {
+    text.classList.add("fq-hide");
+
+    setTimeout(() => {
+      current = (current + 1) % quotes.length;
+      text.textContent = '"' + quotes[current] + '"';
+      text.classList.remove("fq-hide");
+    }, 400);
+  }, 5000);
+})();
+</script>
+<!-- END FIRZHH DAILY QUOTE -->
+  
 </body>
 </html>
