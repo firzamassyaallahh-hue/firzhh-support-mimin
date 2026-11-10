@@ -3098,5 +3098,137 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 })();
 </script>
   
+<style>
+#firzhhBugCenter {
+  margin: 25px auto;
+  padding: 20px;
+  max-width: 650px;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+#firzhhBugCenter h2 {
+  color: #55baff;
+  letter-spacing: 2px;
+}
+.fbc-desc {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+.fbc-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.fbc-btn {
+  padding: 17px 8px;
+  border: 1px solid #168cff;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#101b32,#07111f);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.fbc-btn:active {
+  background: #123c69;
+}
+.fbc-form {
+  display: none;
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #168cff;
+  border-radius: 12px;
+  background: rgba(5,15,30,.92);
+  text-align: left;
+}
+.fbc-form h3 {
+  color: #55baff;
+  text-align: center;
+}
+.fbc-form input,
+.fbc-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0 14px;
+  padding: 12px;
+  border: 1px solid #294c70;
+  border-radius: 8px;
+  background: #080f1b;
+  color: white;
+}
+.fbc-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.fbc-submit {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #168cff;
+  color: white;
+  font-weight: bold;
+}
+.fbc-note {
+  color: #aaa;
+  font-size: 12px;
+  text-align: center;
+}
+@media(max-width:400px) {
+  .fbc-options { grid-template-columns: 1fr; }
+}
+</style>
+
+<section id="firzhhBugCenter">
+  <h2>🐞 FIRZHH BUG REPORT CENTER</h2>
+  <p class="fbc-desc">
+    Help us improve FIRZHH SUPPORT MIMIN.
+    Report any bugs you find below.
+  </p>
+
+  <div class="fbc-options">
+    <button class="fbc-btn" onclick="fbcOpen('website')">
+      🌐 REPORT BUG WEBSITE
+    </button>
+    <button class="fbc-btn" onclick="fbcOpen('script')">
+      📜 REPORT BUG SCRIPT
+    </button>
+  </div>
+
+  <div class="fbc-form" id="fbcWebsite">
+    <h3>WEBSITE BUG REPORT</h3>
+    <label>Name</label>
+    <input type="text" placeholder="Your name">
+    <label>Write a bug</label>
+    <textarea placeholder="Describe the website bug..."></textarea>
+    <button class="fbc-submit" onclick="fbcNotReady()">REPORT</button>
+    <p class="fbc-note">Report storage will be connected in the next stage.</p>
+  </div>
+
+  <div class="fbc-form" id="fbcScript">
+    <h3>SCRIPT BUG REPORT</h3>
+    <label>Name</label>
+    <input type="text" placeholder="Your name">
+    <label>Script yang rusak</label>
+    <textarea placeholder="Write the broken script name or details..."></textarea>
+    <button class="fbc-submit" onclick="fbcNotReady()">REPORT</button>
+    <p class="fbc-note">Report storage will be connected in the next stage.</p>
+  </div>
+</section>
+
+<script>
+function fbcOpen(type) {
+  document.getElementById('fbcWebsite').style.display =
+    type === 'website' ? 'block' : 'none';
+  document.getElementById('fbcScript').style.display =
+    type === 'script' ? 'block' : 'none';
+}
+
+function fbcNotReady() {
+  alert('Report submission will be available soon!');
+}
+</script>
+  
 </body>
 </html>
