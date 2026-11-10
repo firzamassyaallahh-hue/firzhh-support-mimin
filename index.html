@@ -368,6 +368,201 @@ footer{text-align:center;color:#71849e;padding:25px;font-size:12px}
 </head>
 <body>
 
+<style>
+#fbcTop {
+  text-align:center;
+  padding:18px 12px;
+  position:relative;
+  z-index:2;
+}
+#fbcTop button {
+  background:linear-gradient(120deg,#087cff,#194b84);
+  color:white;
+  border:1px solid #55baff;
+  border-radius:12px;
+  padding:13px 35px;
+  font-weight:bold;
+  letter-spacing:2px;
+  cursor:pointer;
+}
+#fbcOverlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+#fbcBox {
+  width:100%;
+  max-width:390px;
+  box-sizing:border-box;
+  padding:22px;
+  border:1px solid #168cff;
+  border-radius:18px;
+  background:linear-gradient(145deg,#101d32,#050b15);
+  color:white;
+  box-shadow:0 0 30px rgba(0,130,255,.2);
+  font-family:Arial,sans-serif;
+  position:relative;
+}
+#fbcBox h2 {
+  color:#55baff;
+  text-align:center;
+  font-size:19px;
+}
+#fbcBox p {
+  color:#aaa;
+  text-align:center;
+  font-size:13px;
+}
+.fbcClose {
+  position:absolute;
+  top:12px;
+  right:15px;
+  background:none;
+  border:0;
+  color:#aaa;
+  font-size:24px;
+  cursor:pointer;
+}
+.fbcChoice {
+  display:block;
+  width:100%;
+  margin-top:12px;
+  padding:16px;
+  border:1px solid #168cff;
+  border-radius:11px;
+  background:#0b1b30;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+.fbcForm {
+  display:none;
+}
+.fbcForm label {
+  display:block;
+  margin-top:14px;
+  color:#b9dfff;
+  font-size:13px;
+}
+.fbcForm input,
+.fbcForm textarea {
+  width:100%;
+  box-sizing:border-box;
+  margin-top:7px;
+  padding:12px;
+  border:1px solid #294c70;
+  border-radius:8px;
+  background:#080f1b;
+  color:white;
+  outline:none;
+}
+.fbcForm textarea {
+  min-height:100px;
+  resize:vertical;
+}
+.fbcSubmit {
+  width:100%;
+  margin-top:17px;
+  padding:13px;
+  border:0;
+  border-radius:9px;
+  background:#168cff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+#fbcSuccess {
+  display:none;
+  color:#75d6ff;
+  text-align:center;
+  padding:20px 5px;
+}
+</style>
+
+<div id="fbcTop">
+  <button onclick="fbcShow()">🐞 REPORT</button>
+</div>
+
+<div id="fbcOverlay">
+  <div id="fbcBox">
+    <button class="fbcClose" onclick="fbcClose()">×</button>
+
+    <div id="fbcChoices">
+      <h2>FIRZHH BUG REPORT</h2>
+      <p>Choose the type of bug you want to report.</p>
+
+      <button class="fbcChoice" onclick="fbcSelect('website')">
+        🌐 REPORT BUG WEBSITE
+      </button>
+
+      <button class="fbcChoice" onclick="fbcSelect('script')">
+        📜 REPORT BUG SCRIPT
+      </button>
+    </div>
+
+    <form class="fbcForm" id="fbcWebsiteForm"
+      onsubmit="fbcSubmit(event)">
+      <h2>WEBSITE BUG</h2>
+      <label>Name</label>
+      <input name="name" required placeholder="Your name">
+      <label>Write a bug</label>
+      <textarea name="description" required
+        placeholder="Describe the website bug..."></textarea>
+      <button class="fbcSubmit" type="submit">REPORT</button>
+    </form>
+
+    <form class="fbcForm" id="fbcScriptForm"
+      onsubmit="fbcSubmit(event)">
+      <h2>SCRIPT BUG</h2>
+      <label>Name</label>
+      <input name="name" required placeholder="Your name">
+      <label>Script yang rusak</label>
+      <textarea name="description" required
+        placeholder="Write the broken script name or details..."></textarea>
+      <button class="fbcSubmit" type="submit">REPORT</button>
+    </form>
+
+    <div id="fbcSuccess">
+      <h2>Thank You!</h2>
+      <p>Thank you for reporting!</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function fbcShow() {
+  document.getElementById('fbcOverlay').style.display='flex';
+}
+function fbcClose() {
+  document.getElementById('fbcOverlay').style.display='none';
+  document.getElementById('fbcChoices').style.display='block';
+  document.getElementById('fbcWebsiteForm').style.display='none';
+  document.getElementById('fbcScriptForm').style.display='none';
+  document.getElementById('fbcSuccess').style.display='none';
+}
+function fbcSelect(type) {
+  document.getElementById('fbcChoices').style.display='none';
+  document.getElementById('fbcWebsiteForm').style.display=
+    type==='website'?'block':'none';
+  document.getElementById('fbcScriptForm').style.display=
+    type==='script'?'block':'none';
+}
+function fbcSubmit(event) {
+  event.preventDefault();
+  alert('Report submission will be connected in the next stage.');
+}
+document.getElementById('fbcOverlay').addEventListener('click',function(e){
+  if(e.target===this) fbcClose();
+});
+</script>
+  
 <div id="welcomeOverlay">
   <div class="welcome-card">
 
@@ -3096,138 +3291,6 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 
   main.prepend(btn);
 })();
-</script>
-  
-<style>
-#firzhhBugCenter {
-  margin: 25px auto;
-  padding: 20px;
-  max-width: 650px;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-#firzhhBugCenter h2 {
-  color: #55baff;
-  letter-spacing: 2px;
-}
-.fbc-desc {
-  color: #aaa;
-  font-size: 13px;
-  margin-bottom: 20px;
-}
-.fbc-options {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-.fbc-btn {
-  padding: 17px 8px;
-  border: 1px solid #168cff;
-  border-radius: 12px;
-  background: linear-gradient(135deg,#101b32,#07111f);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-.fbc-btn:active {
-  background: #123c69;
-}
-.fbc-form {
-  display: none;
-  margin-top: 18px;
-  padding: 18px;
-  border: 1px solid #168cff;
-  border-radius: 12px;
-  background: rgba(5,15,30,.92);
-  text-align: left;
-}
-.fbc-form h3 {
-  color: #55baff;
-  text-align: center;
-}
-.fbc-form input,
-.fbc-form textarea {
-  width: 100%;
-  box-sizing: border-box;
-  margin: 8px 0 14px;
-  padding: 12px;
-  border: 1px solid #294c70;
-  border-radius: 8px;
-  background: #080f1b;
-  color: white;
-}
-.fbc-form textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-.fbc-submit {
-  width: 100%;
-  padding: 12px;
-  border: 0;
-  border-radius: 8px;
-  background: #168cff;
-  color: white;
-  font-weight: bold;
-}
-.fbc-note {
-  color: #aaa;
-  font-size: 12px;
-  text-align: center;
-}
-@media(max-width:400px) {
-  .fbc-options { grid-template-columns: 1fr; }
-}
-</style>
-
-<section id="firzhhBugCenter">
-  <h2>🐞 FIRZHH BUG REPORT CENTER</h2>
-  <p class="fbc-desc">
-    Help us improve FIRZHH SUPPORT MIMIN.
-    Report any bugs you find below.
-  </p>
-
-  <div class="fbc-options">
-    <button class="fbc-btn" onclick="fbcOpen('website')">
-      🌐 REPORT BUG WEBSITE
-    </button>
-    <button class="fbc-btn" onclick="fbcOpen('script')">
-      📜 REPORT BUG SCRIPT
-    </button>
-  </div>
-
-  <div class="fbc-form" id="fbcWebsite">
-    <h3>WEBSITE BUG REPORT</h3>
-    <label>Name</label>
-    <input type="text" placeholder="Your name">
-    <label>Write a bug</label>
-    <textarea placeholder="Describe the website bug..."></textarea>
-    <button class="fbc-submit" onclick="fbcNotReady()">REPORT</button>
-    <p class="fbc-note">Report storage will be connected in the next stage.</p>
-  </div>
-
-  <div class="fbc-form" id="fbcScript">
-    <h3>SCRIPT BUG REPORT</h3>
-    <label>Name</label>
-    <input type="text" placeholder="Your name">
-    <label>Script yang rusak</label>
-    <textarea placeholder="Write the broken script name or details..."></textarea>
-    <button class="fbc-submit" onclick="fbcNotReady()">REPORT</button>
-    <p class="fbc-note">Report storage will be connected in the next stage.</p>
-  </div>
-</section>
-
-<script>
-function fbcOpen(type) {
-  document.getElementById('fbcWebsite').style.display =
-    type === 'website' ? 'block' : 'none';
-  document.getElementById('fbcScript').style.display =
-    type === 'script' ? 'block' : 'none';
-}
-
-function fbcNotReady() {
-  alert('Report submission will be available soon!');
-}
 </script>
   
 </body>
