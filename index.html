@@ -554,10 +554,54 @@ function fbcSelect(type) {
   document.getElementById('fbcScriptForm').style.display=
     type==='script'?'block':'none';
 }
-function fbcSubmit(event) {
+
+async function fbcSubmit(event) {
   event.preventDefault();
-  alert('Report submission will be connected in the next stage.');
+
+  const form = event.target;
+  const type = form.id === "fbcWebsiteForm"
+    ? "website" : "script";
+
+  const name = form.elements.name.value.trim();
+  const description = form.elements.description.value.trim();
+
+  if (!name || !description) {
+    alert("Please complete all fields.");
+    return;
+  }
+
+  if (name.length > 80 || description.length > 3000) {
+    alert("Your report is too long.");
+    return;
+  }
+
+  const button = form.querySelector(".fbcSubmit");
+  button.disabled = true;
+  button.textContent = "SENDING...";
+
+  try {
+    const { error } = await db
+      .from("bug_reports")
+      .insert({
+        report_type: type,
+        name: name,
+        description: description
+      });
+
+    if (error) throw error;
+
+    form.reset();
+    form.style.display = "none";
+    document.getElementById("fbcSuccess").style.display = "block";
+
+  } catch (error) {
+    alert("Failed to submit report: " + error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "REPORT";
+  }
 }
+  
 document.getElementById('fbcOverlay').addEventListener('click',function(e){
   if(e.target===this) fbcClose();
 });
