@@ -2957,5 +2957,146 @@ if (savedTheme) firzhhSetTheme(savedTheme);
 </script>
 <!-- END FIRZHH DAILY QUOTE -->
   
+<style>
+/* FIRZHH MIMIN'S SALES */
+#firzhhSalesBtn{
+  display:block;
+  width:100%;
+  margin:0 0 16px;
+  padding:15px;
+  border:1px solid #258dff;
+  border-radius:12px;
+  background:linear-gradient(120deg,#087cff,#173c9b);
+  color:white;
+  font-weight:bold;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 0 16px #087cff44;
+}
+#firzhhSalesPage{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100001;
+  overflow-y:auto;
+  padding:22px 15px 40px;
+  background:rgba(3,8,22,.88);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+  color:white;
+}
+#firzhhSalesPage.active{display:block}
+.firzhh-sales-content{
+  max-width:520px;
+  margin:15px auto;
+  padding:18px;
+  border:1px solid #258dff;
+  border-radius:17px;
+  background:rgba(8,20,42,.92);
+  box-shadow:0 0 25px #087cff33;
+}
+.firzhh-sales-content h2{
+  text-align:center;
+  color:#55b5ff;
+}
+#firzhhSalesPage img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:12px;
+  border:1px solid #287fff;
+  box-shadow:0 0 18px #087cff33;
+}
+.firzhh-sales-desc{
+  color:#c5d9f1;
+  font-size:14px;
+  line-height:1.8;
+}
+.firzhh-sales-link{
+  display:block;
+  text-align:center;
+  padding:14px;
+  margin-top:12px;
+  border-radius:10px;
+  background:linear-gradient(100deg,#087cff,#1948b4);
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
+.firzhh-sales-back{
+  width:100%;
+  background:#182d4a;
+}
+</style>
+
+<div id="firzhhSalesPage">
+  <div class="firzhh-sales-content">
+    <h2>🛒 MIMIN'S SALES</h2>
+    <p style="text-align:center;color:#8ebfff;font-size:12px">
+      FIRZHH SUPPORT MIMIN
+    </p>
+
+    <img
+      src="https://raw.githubusercontent.com/firzamassyaallahh-hue/firzhh-support-mimin/main/file_0000000094888211a9c1130caeb3cd79.png"
+      alt="Pricelist Jasa Joki Ambil Key Delta dan Script"
+    >
+
+    <div class="firzhh-sales-desc">
+      <h3 style="color:#55b5ff">📌 INFORMASI ORDER</h3>
+
+      <b>Minat? Langsung order melalui Sociabuzz!</b>
+      <p>
+        1. Lakukan pembayaran melalui Sociabuzz.<br>
+        2. Kirim pesan berisi jenis joki yang diinginkan.<br>
+        3. Sertakan link yang ingin di-joki-kan.
+      </p>
+
+      <p>
+        💬 Admin siap melayani. Jika admin sedang tidak
+        online atau belum membalas, silakan hubungi
+        melalui Global Chat.
+      </p>
+    </div>
+
+    <a class="firzhh-sales-link"
+       href="https://sociabuzz.com/firzhh_17aja/tribe"
+       target="_blank"
+       rel="noopener noreferrer">
+       🌐 OPEN SOCIABUZZ ↗
+    </a>
+
+    <button class="firzhh-sales-link"
+      onclick="document.getElementById('firzhhSalesPage').classList.remove('active');openGlobalChat()">
+      💬 CHAT GLOBAL
+    </button>
+
+    <button class="firzhh-sales-back"
+      onclick="document.getElementById('firzhhSalesPage').classList.remove('active')">
+      ← KEMBALI KE BERANDA
+    </button>
+
+    <p style="text-align:center;color:#6fa9e8;font-size:11px">
+      BY: OFFICIAL FIRZHH GROUP
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const main = document.querySelector("main");
+  if(!main || document.getElementById("firzhhSalesBtn")) return;
+
+  const btn = document.createElement("button");
+  btn.id = "firzhhSalesBtn";
+  btn.innerHTML = "🛒 MIMIN'S SALES · LIHAT PRICELIST →";
+  btn.onclick = function(){
+    document.getElementById("firzhhSalesPage")
+      .classList.add("active");
+  };
+
+  main.prepend(btn);
+})();
+</script>
+  
 </body>
 </html>
