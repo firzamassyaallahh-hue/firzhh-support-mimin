@@ -862,7 +862,22 @@ target="_blank" rel="noopener noreferrer">
 <textarea id="suggestionMessage" placeholder="Tulis saran atau kritik..."></textarea>
 <button onclick="sendSuggestion()">KIRIM SARAN</button>
 </section>
+<div class="adminCard" id="bugReportManagement">
+  <h3>🐞 FIRZHH BUG REPORT MANAGEMENT</h3>
+  <p class="muted">Kelola laporan bug dari pengunjung website.</p>
 
+  <button onclick="loadBugReports('website')">
+    🌐 WEBSITE REPORTS
+  </button>
+
+  <button onclick="loadBugReports('script')">
+    📜 SCRIPT REPORTS
+  </button>
+
+  <div id="bugReportsList">
+    <p class="muted">Pilih kategori laporan.</p>
+  </div>
+</div>
 <div id="chatOverlay" class="chat-overlay hidden">
   <div class="chat-window">
 
