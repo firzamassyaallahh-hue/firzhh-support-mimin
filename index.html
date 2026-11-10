@@ -1870,7 +1870,94 @@ async function loadOwnSuggestions(){
   box.append(card);
  });
 }
+async function loadBugReports(type) {
+  const container = document.getElementById("bugReportsList");
+  container.dataset.type = type;
+  container.innerHTML = "<p>Loading reports...</p>";
 
+  try {
+    const { data, error } = await db
+      .from("bug_reports")
+      .select("*")
+      .eq("report_type", type)
+      .order("is_pinned", { ascending: false })
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      container.innerHTML = "<p>No reports found.</p>";
+      return;
+    }
+
+    container.innerHTML = data.map(report => `
+      <div class="adminCard">
+        <h3>${escapeHTML(report.name)}</h3>
+        <p>${escapeHTML(report.description)}</p>
+        <small>${new Date(report.created_at).toLocaleString()}</small>
+        <p>${report.is_pinned ? "📌 PINNED" : ""}</p>
+
+        <button onclick="toggleBugPin('${report.id}', ${report.is_pinned})">
+          ${report.is_pinned ? "UNPIN" : "PIN"}
+        </button>
+
+        <button onclick="deleteBugReport('${report.id}')">
+          DELETE
+        </button>
+      </div>
+    `).join("");
+
+  } catch (error) {
+    container.innerHTML = "<p>Failed to load reports.</p>";
+    alert(error.message);
+  }
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+async function toggleBugPin(id, currentStatus) {
+  const { error } = await db
+    .from("bug_reports")
+    .update({ is_pinned: !currentStatus })
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Report updated!");
+  loadBugReports(
+    document.getElementById("bugReportsList").dataset.type || "website"
+  );
+}
+
+async function deleteBugReport(id) {
+  if (!confirm("Are you sure you want to delete this report?")) return;
+
+  const { error } = await db
+    .from("bug_reports")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Report deleted!");
+  loadBugReports(
+    document.getElementById("bugReportsList").dataset.type || "website"
+  );
+  }
 // LOGOUT
 
 async function adminLogout(){
