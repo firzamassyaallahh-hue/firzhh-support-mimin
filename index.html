@@ -3741,9 +3741,29 @@ footer {
 </div>
 
 <script>
-function verifyOwnerGate() {
-  document.getElementById('ownerGateMessage').textContent =
-    'Verifikasi server belum dipasang. Akses belum dibuka.';
+async function verifyOwnerGate() {
+  const password = $("ownerGatePassword").value;
+  const message = $("ownerGateMessage");
+
+  message.textContent = "Memeriksa password...";
+
+  try {
+    const { data, error } = await db.functions.invoke("owner-gate", {
+      body: { password }
+    });
+
+    if (error) throw error;
+
+    if (!data?.success) {
+      message.textContent = data?.message || "Password salah!";
+      return;
+    }
+
+    message.textContent = "✓ Verifikasi berhasil!";
+    $("ownerGatePassword").value = "";
+  } catch (error) {
+    message.textContent = "Gagal: " + error.message;
+  }
 }
 </script>
   
