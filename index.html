@@ -3865,6 +3865,72 @@ async function verifyOwnerGate() {
   });
 })();
 </script>
+
+<style>
+.owner-action {
+  cursor:pointer;
+  transition:.2s;
+}
+.owner-action:active {
+  transform:scale(.97);
+}
+#ownerInfoPopup {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:1000001;
+  background:#030817ee;
+  padding:20px;
+}
+#ownerInfoPopup .content {
+  max-width:420px;
+  margin:100px auto;
+  padding:22px;
+  border:1px solid #2479d5;
+  border-radius:16px;
+  background:#101d35;
+  color:white;
+}
+</style>
+
+<div id="ownerInfoPopup">
+  <div class="content">
+    <h3 id="ownerInfoTitle">OWNER CENTER</h3>
+    <p id="ownerInfoText"></p>
+    <button onclick="document.getElementById('ownerInfoPopup').style.display='none'">
+      KEMBALI
+    </button>
+  </div>
+</div>
+
+<script>
+function openOwnerInfo(title, text) {
+  document.getElementById("ownerInfoTitle").textContent = title;
+  document.getElementById("ownerInfoText").textContent = text;
+  document.getElementById("ownerInfoPopup").style.display = "block";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const dashboard = document.getElementById("ownerExclusiveDashboard");
+  if (!dashboard) return;
+
+  const items = dashboard.querySelectorAll(".owner-item");
+
+  const info = [
+    ["OWNER PROFILE", "Akses khusus Owner FIRZHH SUPPORT MIMIN."],
+    ["SECURITY CENTER", "Verifikasi password Owner berhasil."],
+    ["WEBSITE CONTROL", "Pengelolaan website tetap melalui panel dan dashboard yang tersedia."]
+  ];
+
+  items.forEach((item, index) => {
+    item.classList.add("owner-action");
+    item.onclick = () => {
+      const data = info[index] || ["OWNER CENTER", "Informasi Owner."];
+      openOwnerInfo(data[0], data[1]);
+    };
+  });
+});
+</script>
   
 </body>
 </html>
