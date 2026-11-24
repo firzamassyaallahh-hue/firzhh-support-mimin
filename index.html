@@ -3768,6 +3768,103 @@ async function verifyOwnerGate() {
   }
 }
 </script>
+
+<style>
+#ownerExclusiveDashboard {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  background:rgba(3,8,20,.97);
+  padding:22px;
+  overflow-y:auto;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+#ownerExclusiveDashboard .owner-panel {
+  max-width:520px;
+  margin:45px auto;
+  padding:24px;
+  border:1px solid #1769c5;
+  border-radius:18px;
+  background:linear-gradient(145deg,#101d35,#07101f);
+  box-shadow:0 0 30px #0755a533;
+}
+#ownerExclusiveDashboard .owner-label {
+  color:#55aaff;
+  font-size:12px;
+  letter-spacing:2px;
+}
+#ownerExclusiveDashboard h2 {
+  margin:10px 0;
+  font-size:25px;
+}
+#ownerExclusiveDashboard .owner-item {
+  background:#14243d;
+  border:1px solid #263e60;
+  padding:15px;
+  border-radius:12px;
+  margin-top:12px;
+}
+#ownerExclusiveDashboard button {
+  width:100%;
+  margin-top:20px;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:#1675dc;
+  color:white;
+  font-weight:bold;
+}
+</style>
+
+<div id="ownerExclusiveDashboard">
+  <div class="owner-panel">
+    <div class="owner-label">FIRZHH SUPPORT MIMIN</div>
+    <h2>OWNER EXCLUSIVE</h2>
+    <p style="color:#a9bdd8">Welcome back, Owner.</p>
+
+    <div class="owner-item">
+      <b>👑 Owner Access</b>
+      <p style="color:#a9bdd8">Status: Verified</p>
+    </div>
+
+    <div class="owner-item">
+      <b>🛡️ Security Center</b>
+      <p style="color:#a9bdd8">Owner verification berhasil.</p>
+    </div>
+
+    <div class="owner-item">
+      <b>⚙️ Control Center</b>
+      <p style="color:#a9bdd8">Dashboard khusus Owner FIRZHH.</p>
+    </div>
+
+    <button onclick="document.getElementById('ownerExclusiveDashboard').style.display='none'">
+      TUTUP DASHBOARD
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const message = document.getElementById("ownerGateMessage");
+  const dashboard = document.getElementById("ownerExclusiveDashboard");
+
+  if (!message || !dashboard) return;
+
+  const observer = new MutationObserver(() => {
+    if (message.textContent.toLowerCase().includes("berhasil")) {
+      dashboard.style.display = "block";
+    }
+  });
+
+  observer.observe(message, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
+})();
+</script>
   
 </body>
 </html>
