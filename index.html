@@ -3692,6 +3692,60 @@ footer {
   -webkit-backdrop-filter: none !important;
 }
 </style>
+
+<style>
+#ownerExclusiveGate {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #071426;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+#ownerExclusiveGate.active {
+  display: flex;
+}
+.owner-gate-card {
+  width: 100%;
+  max-width: 350px;
+  padding: 25px;
+  background: #132b48;
+  border: 1px solid #397db7;
+  border-radius: 18px;
+  color: white;
+}
+.owner-gate-card input {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 15px 0;
+  padding: 13px;
+  background: #091a30;
+  color: white;
+  border: 1px solid #397db7;
+  border-radius: 10px;
+}
+</style>
+
+<div id="ownerExclusiveGate">
+  <div class="owner-gate-card">
+    <div style="color:#8ccaff;font-size:12px">FIRZHH PRIVATE ACCESS</div>
+    <h2>👑 Owner Verification</h2>
+    <p>Masukkan password untuk melanjutkan.</p>
+    <input id="ownerGatePassword" type="password" placeholder="Password Owner">
+    <button onclick="verifyOwnerGate()">UNLOCK ACCESS</button>
+    <p id="ownerGateMessage"></p>
+    <button onclick="document.getElementById('ownerExclusiveGate').classList.remove('active')">TUTUP</button>
+  </div>
+</div>
+
+<script>
+function verifyOwnerGate() {
+  document.getElementById('ownerGateMessage').textContent =
+    'Verifikasi server belum dipasang. Akses belum dibuka.';
+}
+</script>
   
 </body>
 </html>
